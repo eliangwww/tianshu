@@ -26,7 +26,7 @@ const 我的优选IPV6 = 'www.visa.com' //CF的IPV6节点，这个只增加了cl
 const 启用反代功能 = true //选择是否启用反代功能，false，true，现在你可以自由的选择是否启用反代功能了
 const 反代IP = 'proxyip.fxxk.dedyn.io' //反代IP或域名，不需要填端口，反代IP只是兜底策略，不能固定落地地区，可以结合非CF节点一起用并选择该节点，固定落地地区
 
-const 特殊优选 = 'proxyip.fxxk.dedyn.io' //非CF的节点，填域名或IP，结合你的反代一起使用的话，这个节点可以完全的固定落地地区，例如同时都使用美国的
+const 特殊优选 = 'www.visa.com' //非CF的节点，填域名或IP，结合你的反代一起使用的话，这个节点可以完全的固定落地地区，例如同时都使用美国的
 const 特殊优选的端口 = '443' //非CF的节点端口
 const 非CF节点是否打开tls = 'true' //非CF的节点TLS开关，true，false，通用订阅此功能无效，默认使用tls
 
