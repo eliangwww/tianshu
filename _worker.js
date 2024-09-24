@@ -13,7 +13,7 @@
 
 import { connect } from 'cloudflare:sockets';
 
-const 哎呀呀这是我的ID啊 = ""; //实际上这是你的订阅路径，支持任意大小写字母和数字，[域名/ID]进入订阅页面
+const 哎呀呀这是我的ID啊 = "6666"; //实际上这是你的订阅路径，支持任意大小写字母和数字，[域名/ID]进入订阅页面
 const 哎呀呀这是我的UUID = "ae13a23c-cbac-4dd6-bf51-5a73450a62a8"; //这是真实的UUID，会进行验证，建议修改为自己的规范化UUID
 
 const 私钥开关 = false //是否启用私钥功能，true启用，false不启用，因为私钥功能只支持clash，如果打算使用通用订阅则需关闭私钥功能
