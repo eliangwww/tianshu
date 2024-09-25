@@ -1,6 +1,6 @@
 import { connect } from 'cloudflare:sockets';
 
-const 哎呀呀这是我的ID啊 = [""]; //这是你的ID，去除UUID规格限制，支持大小写字母和数字任意组合，安全性提高更不容易扫出，就是订阅链接的ID，[域名/ID]进入订阅页面
+const 哎呀呀这是我的ID啊 = ["66666"]; //这是你的ID，去除UUID规格限制，支持大小写字母和数字任意组合，安全性提高更不容易扫出，就是订阅链接的ID，[域名/ID]进入订阅页面
 const 哎呀呀这是我的UUID = ["71fcd6eb-3f55-4263-71b2-fda10a6c7ca1"]; //给订阅一个虚假UUID，因为很多客户端需要标准格式化的UUID，本worker并不验证UUID，这个UUID并不重要，只要是规格化的就行
 
 const 私钥开关 = false //是否启用私钥功能，true启用，false不启用，因为私钥功能只支持clash，如果打算使用通用订阅则需关闭私钥功能
