@@ -34,7 +34,7 @@ let 反代IP = [
   'ts.hpc.tw',
 ] //反代IP或域名，反代IP端口一般情况下不用填写，如果你非要用非标反代的话，可以填'ts.hpc.tw:443'这样
 
-let 启用SOCKS5反代 = false //如果启用此功能，原始反代将失效
+let 启用SOCKS5反代 = true //如果启用此功能，原始反代将失效
 let 我的SOCKS5账号 = 'TG:CMLiussss@socks5.serv00.090227.xyz:35555' //格式'账号:密码@地址:端口'
 
 let 我的节点名字 = 'Eliang优选' //自己的节点名字
