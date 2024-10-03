@@ -703,90 +703,6 @@ proxies:
     headers:
       Host: ${hostName}
       ${我的私钥}
-- name: ${我的节点名字}-IPV6-tls-443
-  type: ${转码}${转码2}
-  server: ${我的优选IPV6}
-  port: 443
-  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-IPV6-tls-8443
-  type: ${转码}${转码2}
-  server: ${我的优选IPV6}
-  port: 8443
-  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-IPV6-tls-2053
-  type: ${转码}${转码2}
-  server: ${我的优选IPV6}
-  port: 2053
-  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-IPV6-tls-2083
-  type: ${转码}${转码2}
-  server: ${我的优选IPV6}
-  port: 2083
-  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-IPV6-tls-2087
-  type: ${转码}${转码2}
-  server: ${我的优选IPV6}
-  port: 2087
-  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-IPV6-tls-2096
-  type: ${转码}${转码2}
-  server: ${我的优选IPV6}
-  port: 2096
-  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
 - name: ${我的节点名字}-非CF节点
   type: ${转码}${转码2}
   server: ${特殊优选}
@@ -813,26 +729,11 @@ proxies:
     headers:
       Host: ${hostName}
       ${我的私钥}
-- name: ${我的节点名字}-备用IPV6节点
-  type: ${转码}${转码2}
-  server: ${hostName}
-  port: 443
-  ip-version: ipv6-prefer  # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
 proxy-groups:
 - name: 🚀 节点选择
   type: select
   proxies:
     - tls负载均衡
-    - IPV6-tls负载均衡
     - 自动选择
     - ${我的节点名字}-tls-443
     - ${我的节点名字}-tls-8443
@@ -840,15 +741,8 @@ proxy-groups:
     - ${我的节点名字}-tls-2083
     - ${我的节点名字}-tls-2087
     - ${我的节点名字}-tls-2096
-    - ${我的节点名字}-IPV6-tls-443
-    - ${我的节点名字}-IPV6-tls-8443
-    - ${我的节点名字}-IPV6-tls-2053
-    - ${我的节点名字}-IPV6-tls-2083
-    - ${我的节点名字}-IPV6-tls-2087
-    - ${我的节点名字}-IPV6-tls-2096
     - ${我的节点名字}-非CF节点
     - ${我的节点名字}-备用IPV4节点
-    - ${我的节点名字}-备用IPV6节点
 - name: 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -861,15 +755,8 @@ proxy-groups:
     - ${我的节点名字}-tls-2083
     - ${我的节点名字}-tls-2087
     - ${我的节点名字}-tls-2096
-    - ${我的节点名字}-IPV6-tls-443
-    - ${我的节点名字}-IPV6-tls-8443
-    - ${我的节点名字}-IPV6-tls-2053
-    - ${我的节点名字}-IPV6-tls-2083
-    - ${我的节点名字}-IPV6-tls-2087
-    - ${我的节点名字}-IPV6-tls-2096
     - ${我的节点名字}-非CF节点
     - ${我的节点名字}-备用IPV4节点
-    - ${我的节点名字}-备用IPV6节点
 - name: tls负载均衡
   type: load-balance
   url: http://www.gstatic.com/generate_204
@@ -881,17 +768,6 @@ proxy-groups:
     - ${我的节点名字}-tls-2083
     - ${我的节点名字}-tls-2087
     - ${我的节点名字}-tls-2096
-- name: IPV6-tls负载均衡
-  type: load-balance
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  proxies:
-    - ${我的节点名字}-IPV6-tls-443
-    - ${我的节点名字}-IPV6-tls-8443
-    - ${我的节点名字}-IPV6-tls-2053
-    - ${我的节点名字}-IPV6-tls-2083
-    - ${我的节点名字}-IPV6-tls-2087
-    - ${我的节点名字}-IPV6-tls-2096
 - name: 非CF节点
   type: select
   proxies:
