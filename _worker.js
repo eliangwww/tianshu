@@ -593,20 +593,20 @@ return `
 }
 function 给我通用配置文件(hostName) {
 const 特殊长链接Links = btoa(`
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#移动优选_请勿测速-443
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#移动优选_请勿测速-8443
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#移动优选_请勿测速-2053
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#移动优选_请勿测速-2083
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#移动优选_请勿测速-2087
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#移动优选_请勿测速-2093
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-443
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-8443
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-2053
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-2083
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-2087
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-2093
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#移动特殊优选_请勿测速
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#移动备用_请勿测速
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-nocf1
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-nocf2
 `);
 if (私钥开关) {
   return `请先关闭私钥功能`
