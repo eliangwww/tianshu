@@ -593,7 +593,7 @@ return `
 }
 function 给我通用配置文件(hostName) {
 const 特殊长链接Links = btoa(`
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcctest
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
