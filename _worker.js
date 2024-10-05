@@ -1,4 +1,4 @@
-//1、天书版5.0终极版
+//1、天书版5.0终极版，支持S5全局反代，全局反代外部环境变量名【SOCKS5GLOBAL】，true和false
 //2、支持反代开关，私钥开关，全局分段开关，订阅隐藏开关功能，去除UUID限制，clash私钥防止被薅请求数
 //3、又再重新修改了接口关闭逻辑，降低请求数（请求数大幅度降低）和错误率（worker引发异常为0，至少我测试的是）
 //4、修改传输方式，增加分片传输，可提升传输稳定性
@@ -14,7 +14,7 @@
 import { connect } from 'cloudflare:sockets';
 
 let 哎呀呀这是我的ID啊 = "66666"; //实际上这是你的订阅路径，支持任意大小写字母和数字，[域名/ID]进入订阅页面
-let 哎呀呀这是我的VL密钥 = "ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8"; //这是真实的UUID，会进行验证，建议修改为自己的规范化UUID
+let 哎呀呀这是我的VL密钥 = "ae13a16c-cbcc-4dd6-bb51-5a70cc0a62a8"; //这是真实的UUID，会进行验证，建议修改为自己的规范化UUID
 
 let 私钥开关 = false //是否启用私钥功能，true启用，false不启用，因为私钥功能只支持clash，如果打算使用通用订阅则需关闭私钥功能
 let 咦这是我的私钥哎 = "6666"; //这是你的私钥，提高隐秘性安全性，就算别人扫到你的域名也无法链接，再也不怕别人薅请求数了^_^
@@ -35,13 +35,14 @@ let 反代IP = [
 ] //反代IP或域名，反代IP端口一般情况下不用填写，如果你非要用非标反代的话，可以填'ts.hpc.tw:443'这样
 
 let 启用SOCKS5反代 = true //如果启用此功能，原始反代将失效
+let 启用SOCKS5全局反代 = true //选择是否启用SOCKS5全局反代，启用后所有访问都是S5的落地【无论你客户端选什么节点】，访问路径是客户端--CF--SOCKS5，当然启用此功能后延迟=CF+SOCKS5，带宽取决于SOCKS5的带宽，不再享受CF高速和随时满带宽的待遇，同时需关闭分段传输功能
 let 我的SOCKS5账号 = 'TG:CMLiussss@socks5.serv00.090227.xyz:35555' //格式'账号:密码@地址:端口'
 
 let 我的节点名字 = '移动优选_请勿测速' //自己的节点名字
 
 let 伪装网页 = 'https://cfip.nyc.mn' //填入伪装网页，格式'www.youku.com'，如果不填，脚本本身有个内置的简单代理页面，建议用小站伪装或者直接内置，比较靠谱
 
-let 启用全局分段 = true //选择是否使用全局分段功能，试验功能，分段传输可以降低worker压力，提升传输稳定性。
+let 启用全局分段 = false //选择是否使用全局分段功能，试验功能，分段传输可以降低worker压力，提升传输稳定性，若启用了全局SOCKS5则需关闭此功能
 let 分段大小 = 1*1024; //分段大小，建议不要随意修改，这是测试的比较适合的数值。
 //////////////////////////////////////////////////////////////////////////网页入口////////////////////////////////////////////////////////////////////////
 export default {
@@ -110,6 +111,7 @@ export default {
           FDIP = env.PROXYIP;
           我的SOCKS5账号 = env.SOCKS5 || 我的SOCKS5账号;
           启用SOCKS5反代 = (env.SOCKS5OPEN === 'true') ? true : (env.SOCKS5OPEN === 'false' ? false : 启用SOCKS5反代);
+          启用SOCKS5全局反代 = (env.SOCKS5GLOBAL === 'true') ? true : (env.SOCKS5GLOBAL === 'false' ? false : 启用SOCKS5全局反代);
           if (私钥开关) {
           const 验证我的私钥 = 访问请求.headers.get('my-key')
           if (验证我的私钥 === 咦这是我的私钥哎) {
@@ -376,6 +378,10 @@ for (let i = 0; i < 256; ++i) {
 }
 //第四步，建立VL--workers--外网的TCP握手协议
 async function TCP握手协议(远程传输, 识别地址类型, 访问地址, 访问端口, 写入数据请求, WS接口) {
+  if (启用反代功能 && 启用SOCKS5反代 && 启用SOCKS5全局反代) {
+    SOCKS5反代兜底();
+    return;
+  }
   反代数组 = await 获取反代IP列表();
   const 目标TCP接口 = await 创建TCP握手(访问地址, 访问端口);
   TCP接口访问WS(目标TCP接口, WS接口, SOCKS5反代兜底, 原始反代兜底);
@@ -434,7 +440,7 @@ async function TCP接口访问WS(TCP接口, WS接口, SOCKS5反代兜底, 原始
         }
     },
   }));
-  if (启用反代功能 && 传入数据 === false) {
+  if (启用反代功能 && 启用SOCKS5全局反代 === false && 传入数据 === false) {
     TCP接口.close();
       if (启用SOCKS5反代) {
         启用SOCKS5反代 = false;
@@ -593,20 +599,34 @@ return `
 }
 function 给我通用配置文件(hostName) {
 const 特殊长链接Links = btoa(`
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-443
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-8443
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-2053
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-2083
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-2087
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-2093
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:80?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:8080?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:8880?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2052?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2082?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2086?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2095?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:80?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:8080?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:8880?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2052?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2082?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2086?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2095?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-nocf1
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#cmcc-nocf2
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 `);
 if (私钥开关) {
   return `请先关闭私钥功能`
@@ -625,6 +645,97 @@ dns:
     - tls://dns.google
     - 2001:4860:4860::8888
 proxies:
+- name: ${我的节点名字}-notls-80
+  type: ${转码}${转码2}
+  server: ${我的优选}
+  port: 80
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-notls-8080
+  type: ${转码}${转码2}
+  server: ${我的优选}
+  port: 8080
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-notls-8880
+  type: ${转码}${转码2}
+  server: ${我的优选}
+  port: 8880
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-notls-2052
+  type: ${转码}${转码2}
+  server: ${我的优选}
+  port: 2052
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-notls-2082
+  type: ${转码}${转码2}
+  server: ${我的优选}
+  port: 2082
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-notls-2086
+  type: ${转码}${转码2}
+  server: ${我的优选}
+  port: 2086
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-notls-2095
+  type: ${转码}${转码2}
+  server: ${我的优选}
+  port: 2095
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
 - name: ${我的节点名字}-tls-443
   type: ${转码}${转码2}
   server: ${我的优选}
@@ -703,6 +814,188 @@ proxies:
     headers:
       Host: ${hostName}
       ${我的私钥}
+- name: ${我的节点名字}-IPV6-notls-80
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 80
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-notls-8080
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 8080
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-notls-8880
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 8880
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-notls-2052
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 2052
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-notls-2082
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 2082
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-notls-2086
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 2086
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-notls-2095
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 2095
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-tls-443
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 443
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-tls-8443
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 8443
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-tls-2053
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 2053
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-tls-2083
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 2083
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-tls-2087
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 2087
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-IPV6-tls-2096
+  type: ${转码}${转码2}
+  server: ${我的优选IPV6}
+  port: 2096
+  ip-version: ipv6 # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
 - name: ${我的节点名字}-非CF节点
   type: ${转码}${转码2}
   server: ${特殊优选}
@@ -720,6 +1013,20 @@ proxies:
   type: ${转码}${转码2}
   server: ${hostName}
   port: 443
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字}-备用IPV6节点
+  type: ${转码}${转码2}
+  server: ${hostName}
+  port: 443
+  ip-version: ipv6-prefer  # ip-version设置，可以自定义强制走ipv4或ipv6，ipv6-prefer则是双栈优先走ipv6
   uuid: ${哎呀呀这是我的VL密钥}
   udp: false
   tls: true
