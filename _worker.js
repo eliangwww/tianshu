@@ -627,6 +627,7 @@ ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选IPV6}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+vless://ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8@127.0.0.1:1234?security=tls&sni=net.001316.xyz&type=ws&path=/?ed%3D2560&host=net.001316.xyz&encryption=none#%E6%B5%8B%E9%80%9F
 `);
 if (私钥开关) {
   return `请先关闭私钥功能`
