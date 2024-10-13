@@ -40,8 +40,8 @@ let 我的SOCKS5账号 = 'TG:CMLiussss@socks5.serv00.090227.xyz:35555' //格式'
 
 let 我的节点名字 = '移动优选_请勿测速' //自己的节点名字
 
-let BotToken ='';
-let ChatID =''; 
+let BotToken ='6759058930:AAGslwHy4f7OtsEiqw8G-b7Gcfg6lt6mbNY';
+let ChatID ='-1002242550802'; 
 
 let 伪装网页 = 'https://cfip.nyc.mn' //填入伪装网页，格式'www.youku.com'，如果不填，脚本本身有个内置的简单代理页面，建议用小站伪装或者直接内置，比较靠谱
 
