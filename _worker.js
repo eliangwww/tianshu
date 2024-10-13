@@ -607,7 +607,7 @@ ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:208
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2096
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
-vless://ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8@127.0.0.1:1234?security=tls&sni=net.001316.xyz&type=ws&path=/?ed%3D2560&host=net.001316.xyz&encryption=none#%E6%B5%8B%E9%80%9F
+vless://ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8@127.0.0.1:1234?security=tls&sni=net.001316.xyz&type=ws&path=/?ed%3D2560&host=net.001316.xyz&encryption=none#CFNAT
 `);
 if (私钥开关) {
   return `请先关闭私钥功能`
@@ -630,6 +630,19 @@ proxies:
   type: ${转码}${转码2}
   server: ${我的优选}
   port: 443
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+      - name: ${我的节点名字}-tls-443
+  type: ${转码}${转码2}
+  server: 127.0.0.1
+  port: 1234
   uuid: ${哎呀呀这是我的VL密钥}
   udp: false
   tls: true
