@@ -749,6 +749,7 @@ proxy-groups:
   proxies:
     - tls负载均衡
     - 自动选择
+    - CFNAT
     - ${我的节点名字}-tls-443
     - ${我的节点名字}-tls-8443
     - ${我的节点名字}-tls-2053
