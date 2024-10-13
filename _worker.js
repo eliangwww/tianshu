@@ -605,8 +605,8 @@ ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:205
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2083
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2087
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2096
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#%E9%9D%9ECF
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#%E5%A4%87%E7%94%A8
 vless://ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8@127.0.0.1:1234?security=tls&sni=net.001316.xyz&type=ws&path=/?ed%3D2560&host=net.001316.xyz&encryption=none#CFNAT
 `);
 if (私钥开关) {
