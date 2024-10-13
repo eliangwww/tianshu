@@ -639,7 +639,7 @@ proxies:
     headers:
       Host: ${hostName}
       ${我的私钥}
-      - name: ${我的节点名字}-tls-443
+- name: CFNAT
   type: ${转码}${转码2}
   server: 127.0.0.1
   port: 1234
