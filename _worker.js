@@ -40,6 +40,9 @@ let 我的SOCKS5账号 = 'TG:CMLiussss@socks5.serv00.090227.xyz:35555' //格式'
 
 let 我的节点名字 = '移动优选_请勿测速' //自己的节点名字
 
+let BotToken ='';
+let ChatID =''; 
+
 let 伪装网页 = 'https://cfip.nyc.mn' //填入伪装网页，格式'www.youku.com'，如果不填，脚本本身有个内置的简单代理页面，建议用小站伪装或者直接内置，比较靠谱
 
 let 启用全局分段 = false //选择是否使用全局分段功能，试验功能，分段传输可以降低worker压力，提升传输稳定性，若启用了全局SOCKS5则需关闭此功能
@@ -842,4 +845,27 @@ rules:
 - GEOIP,TELEGRAM,🚀 节点选择,no-resolve #TG IP规则
 - MATCH,漏网之鱼
 `
+}
+
+async function sendMessage(type, ip, add_data = "") {
+	if ( BotToken !== '' && ChatID !== ''){
+		let msg = "";
+		const response = await fetch(`http://ip-api.com/json/${ip}?lang=zh-CN`);
+		if (response.status == 200) {
+			const ipInfo = await response.json();
+			msg = `${type}\nIP: ${ip}\n国家: ${ipInfo.country}\n<tg-spoiler>城市: ${ipInfo.city}\n组织: ${ipInfo.org}\nASN: ${ipInfo.as}\n${add_data}`;
+		} else {
+			msg = `${type}\nIP: ${ip}\n<tg-spoiler>${add_data}`;
+		}
+	
+		let url = "https://api.telegram.org/bot"+ BotToken +"/sendMessage?chat_id=" + ChatID + "&parse_mode=HTML&text=" + encodeURIComponent(msg);
+		return fetch(url, {
+			method: 'get',
+			headers: {
+				'Accept': 'text/html,application/xhtml+xml,application/xml;',
+				'Accept-Encoding': 'gzip, deflate, br',
+				'User-Agent': 'Mozilla/5.0 Chrome/90.0.4430.72'
+			}
+		});
+	}
 }
