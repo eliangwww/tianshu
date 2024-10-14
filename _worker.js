@@ -871,6 +871,12 @@ proxy-groups:
     - ${我的节点名字}-tls-2083
     - ${我的节点名字}-tls-2087
     - ${我的节点名字}-tls-2096
+    - ${我的节点名字2}-tls-443
+    - ${我的节点名字2}-tls-8443
+    - ${我的节点名字2}-tls-2053
+    - ${我的节点名字2}-tls-2083
+    - ${我的节点名字2}-tls-2087
+    - ${我的节点名字2}-tls-2096
     - ${我的节点名字}-非CF节点
     - ${我的节点名字}-备用IPV4节点
 - name: 自动选择
@@ -887,6 +893,30 @@ proxy-groups:
     - ${我的节点名字}-tls-2096
     - ${我的节点名字}-非CF节点
     - ${我的节点名字}-备用IPV4节点
+- name: 移动优选
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+    - ${我的节点名字}-tls-443
+    - ${我的节点名字}-tls-8443
+    - ${我的节点名字}-tls-2053
+    - ${我的节点名字}-tls-2083
+    - ${我的节点名字}-tls-2087
+    - ${我的节点名字}-tls-2096
+- name: 移动优选
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+    - ${我的节点名字2}-tls-443
+    - ${我的节点名字2}-tls-8443
+    - ${我的节点名字2}-tls-2053
+    - ${我的节点名字2}-tls-2083
+    - ${我的节点名字2}-tls-2087
+    - ${我的节点名字2}-tls-2096
 - name: tls负载均衡
   type: load-balance
   url: http://www.gstatic.com/generate_204
@@ -898,6 +928,12 @@ proxy-groups:
     - ${我的节点名字}-tls-2083
     - ${我的节点名字}-tls-2087
     - ${我的节点名字}-tls-2096
+    - ${我的节点名字2}-tls-443
+    - ${我的节点名字2}-tls-8443
+    - ${我的节点名字2}-tls-2053
+    - ${我的节点名字2}-tls-2083
+    - ${我的节点名字2}-tls-2087
+    - ${我的节点名字2}-tls-2096
 - name: 非CF节点
   type: select
   proxies:
@@ -959,8 +995,3 @@ rules:
 `
 }
 
-
-// 示例：用户订阅时发送通知
-function onUserSubscription() {
-    getUserIPAndNotify();
-}
