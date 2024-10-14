@@ -63,9 +63,9 @@ export default {
                       }
                   });
               }
-              case `/${userID}`: {
+              case `/uuid`: {
 		await sendMessage(`#获取订阅 `, request.headers.get('CF-Connecting-IP'), `UA: </tg-spoiler>\n\n<tg-spoiler>入口: </tg-spoiler>`);
-		const vlessConfig = await getVLESSConfig(userID, request.headers.get('Host'), sub, UA, RproxyIP, url);
+		const vlessConfig = await getVLESSConfig(userID, request.headers.get('Host'), sub, UA, RproxyIP, url);}
 	      case `/${哎呀呀这是我的ID啊}/${转码}${转码2}`: {
                   if (隐藏订阅) {
                   return new Response (`${嘲讽语}`, {
