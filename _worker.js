@@ -632,7 +632,8 @@ dns:
 proxies:
 - name: 🇵🇱 波兰
   server: cf.090227.xyz
-  port: 443, type: vmess
+  port: 443
+  type: vmess
   uuid: fc44fe6a-f083-4591-9c03-f8d61dc3907f
   alterId: 0
   cipher: auto
