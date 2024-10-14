@@ -753,19 +753,6 @@ proxies:
     headers:
       Host: ${hostName}
       ${我的私钥}
-- name: CFNAT
-  type: ${转码}${转码2}
-  server: 127.0.0.1
-  port: 1234
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
 - name: ${我的节点名字2}-tls-8443
   type: ${转码}${转码2}
   server: ${我的优选2}
