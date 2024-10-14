@@ -905,7 +905,7 @@ proxy-groups:
     - ${我的节点名字}-tls-2083
     - ${我的节点名字}-tls-2087
     - ${我的节点名字}-tls-2096
-- name: 移动优选
+- name: 电信优选
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
