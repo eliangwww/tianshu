@@ -611,7 +611,7 @@ ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:209
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#%E9%9D%9ECF
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#%E5%A4%87%E7%94%A8
 vless://ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8@127.0.0.1:1234?security=tls&sni=net.001316.xyz&type=ws&path=/?ed%3D2560&host=net.001316.xyz&encryption=none#CFNAT
-vmess://eyJhZGQiOiJjZi4wOTAyMjcueHl6IiwiYWlkIjoiMCIsImhvc3QiOiJhcmdvLmNmaXAubnljLm1uIiwiaWQiOiJmYzQ0ZmU2YS1mMDgzLTQ1OTEtOWMwMy1mOGQ2MWRjMzkwN2YiLCJuZXQiOiJ3cyIsInBhdGgiOiJ2bWVzcz9lZD0yMDQ4IiwicG9ydCI6IjQ0MyIsInBzIjoiQVJHT+WbuuWumiIsInNjeSI6ImF1dG8iLCJzbmkiOiJjZi5jZmlwLm55Yy5tbiIsInRscyI6InRscyIsInR5cGUiOiJub25lIiwidiI6IjIifQ==
+vmess://eyJhZGQiOiJjZi4wOTAyMjcueHl6IiwiYWlkIjoiMCIsImhvc3QiOiJhcmdvLmNmaXAubnljLm1uIiwiaWQiOiJmYzQ0ZmU2YS1mMDgzLTQ1OTEtOWMwMy1mOGQ2MWRjMzkwN2YiLCJuZXQiOiJ3cyIsInBhdGgiOiJ2bWVzcz9lZD0yMDQ4IiwicG9ydCI6IjQ0MyIsInBzIjoi5rOi5YWwIiwic2N5IjoiYXV0byIsInNuaSI6ImNmLmNmaXAubnljLm1uIiwidGxzIjoidGxzIiwidHlwZSI6Im5vbmUiLCJ2IjoiMiJ9
 `);
 if (私钥开关) {
   return `请先关闭私钥功能`
