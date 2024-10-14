@@ -40,9 +40,7 @@ let 我的SOCKS5账号 = 'TG:CMLiussss@socks5.serv00.090227.xyz:35555' //格式'
 
 let 我的节点名字 = '移动优选_请勿测速' //自己的节点名字
 
-const BotToken ='6759058930:AAGslwHy4f7OtsEiqw8G-b7Gcfg6lt6mbNY';
-const ChatID ='-1002242550802'; 
-const TELEGRAM_API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
 
 let 伪装网页 = 'https://cfip.nyc.mn' //填入伪装网页，格式'www.youku.com'，如果不填，脚本本身有个内置的简单代理页面，建议用小站伪装或者直接内置，比较靠谱
 
@@ -861,49 +859,7 @@ rules:
 - MATCH,漏网之鱼
 `
 }
-// 用于发送消息的函数
-function sendTelegramMessage(message) {
-    const data = {
-        chat_id: CHAT_ID,
-        text: message,
-    };
 
-    // 使用 fetch API 发送 POST 请求
-    fetch(TELEGRAM_API_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Telegram message sent successfully:', data);
-    })
-    .catch(error => {
-        console.error('Error sending message to Telegram:', error);
-    });
-}
-
-// 获取用户 IP 并发送给 Telegram 的函数
-function getUserIPAndNotify() {
-    // 使用外部服务 ipify 来获取 IP 地址
-    fetch('https://api.ipify.org?format=json')
-    .then(response => response.json())
-    .then(data => {
-        const userIP = data.ip;
-        // 发送消息到 Telegram，包含用户的 IP 地址
-        sendTelegramMessage(`用户访问了页面，IP 地址是: ${userIP}`);
-    })
-    .catch(error => {
-        console.error('Error fetching IP address:', error);
-    });
-}
-
-// 页面加载时获取 IP 地址并通知
-window.addEventListener('load', () => {
-    getUserIPAndNotify();
-});
 
 // 示例：用户订阅时发送通知
 function onUserSubscription() {
