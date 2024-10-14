@@ -40,6 +40,7 @@ let 启用SOCKS5全局反代 = false //选择是否启用SOCKS5全局反代，�
 let 我的SOCKS5账号 = 'TG:CMLiussss@socks5.serv00.090227.xyz:35555' //格式'账号:密码@地址:端口'
 
 let 我的节点名字 = '移动优选_请勿测速' //自己的节点名字
+let 我的节点名字2 = '电信优选_请勿测速' //自己的节点名字
 
 
 
@@ -608,6 +609,12 @@ ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:205
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2083
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2087
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2096
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-443
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-8443
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-2053
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-2083
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-2087
+${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-2096
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#%E9%9D%9ECF
 ${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#%E5%A4%87%E7%94%A8
 vless://ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8@127.0.0.1:1234?security=tls&sni=net.001316.xyz&type=ws&path=/?ed%3D2560&host=net.001316.xyz&encryption=none#CFNAT
@@ -723,6 +730,97 @@ proxies:
 - name: ${我的节点名字}-tls-2096
   type: ${转码}${转码2}
   server: ${我的优选}
+  port: 2096
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字2}-tls-443
+  type: ${转码}${转码2}
+  server: ${我的优选2}
+  port: 443
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: CFNAT
+  type: ${转码}${转码2}
+  server: 127.0.0.1
+  port: 1234
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字2}-tls-8443
+  type: ${转码}${转码2}
+  server: ${我的优选2}
+  port: 8443
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字2}-tls-2053
+  type: ${转码}${转码2}
+  server: ${我的优选2}
+  port: 2053
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字2}-tls-2083
+  type: ${转码}${转码2}
+  server: ${我的优选2}
+  port: 2083
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字2}-tls-2087
+  type: ${转码}${转码2}
+  server: ${我的优选2}
+  port: 2087
+  uuid: ${哎呀呀这是我的VL密钥}
+  udp: false
+  tls: true
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+      ${我的私钥}
+- name: ${我的节点名字2}-tls-2096
+  type: ${转码}${转码2}
+  server: ${我的优选2}
   port: 2096
   uuid: ${哎呀呀这是我的VL密钥}
   udp: false
