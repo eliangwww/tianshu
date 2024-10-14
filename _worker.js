@@ -641,9 +641,7 @@ proxies:
   skip-cert-verify: true
   servername: cf.cfip.nyc.mn
   network: ws
-  ws-opts: 
-   path: "vmess?ed=2048"
-   headers: {Host: argo.cfip.nyc.mn}}
+  ws-opts: {path: "vmess?ed=2048", headers: {Host: argo.cfip.nyc.mn}}
 - name: ${我的节点名字}-tls-443
   type: ${转码}${转码2}
   server: ${我的优选}
