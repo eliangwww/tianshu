@@ -48,6 +48,49 @@ let 伪装网页 = 'https://cfip.nyc.mn' //填入伪装网页，格式'www.youku
 
 let 启用全局分段 = false //选择是否使用全局分段功能，试验功能，分段传输可以降低worker压力，提升传输稳定性，若启用了全局SOCKS5则需关闭此功能
 let 分段大小 = 1*1024; //分段大小，建议不要随意修改，这是测试的比较适合的数值。
+
+async function fetchVisitorIPAndNotifyTG(访问请求) {
+    // 获取访问者IP地址
+    let visitorIP = '未获取IP';
+    try {
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        visitorIP = ipData.ip;
+    } catch (error) {
+        console.error('获取IP地址失败:', error);
+    }
+
+    // 构建消息内容
+    const message = `新的访问请求！\n访问者IP: ${visitorIP}`;
+
+    // 发送消息到Telegram机器人
+    const botToken = '你的TelegramBotToken';
+    const chatId = '你的ChatID';
+    const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    const body = {
+        chat_id: chatId,
+        text: message,
+    };
+
+    try {
+        const response = await fetch(tgUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (response.ok) {
+            console.log('消息成功发送到Telegram');
+        } else {
+            console.error('发送消息到Telegram失败:', response.statusText);
+        }
+    } catch (error) {
+        console.error('发送请求失败:', error);
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////网页入口////////////////////////////////////////////////////////////////////////
 export default {
   async fetch(访问请求, env) {
@@ -983,4 +1026,3 @@ rules:
 - MATCH,漏网之鱼
 `
 }
-
