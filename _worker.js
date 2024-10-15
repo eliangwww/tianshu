@@ -68,8 +68,8 @@ async function fetchVisitorIPAndNotifyTG(访问请求) {
     console.log('准备发送消息到Telegram:', message); // 日志：调试
 
     // 发送消息到Telegram机器人
-    const botToken = '6759058930:AAGslwHy4f7OtsEiqw8G-b7Gcfg6lt6mbNY'; // 替换为你的真实Bot Token
-    const chatId = '-1002242550802'; // 替换为你的真实Chat ID
+    const botToken = '你的TelegramBotToken'; // 替换为你的真实Bot Token
+    const chatId = '你的ChatID'; // 替换为你的真实Chat ID
     const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
     const body = {
         chat_id: chatId,
@@ -95,13 +95,15 @@ async function fetchVisitorIPAndNotifyTG(访问请求) {
     }
 }
 
-// 示例：在fetch访问请求中调用
-export default {
-    async fetch(访问请求, env) {
-        console.log('收到新的访问请求'); // 日志：调试
+////////////////////////////////////////////////////////////////////////
+// 这是 fetch 函数，直接定义在全局作用域，无需使用 export
+////////////////////////////////////////////////////////////////////////
+async function fetch(访问请求, env) {
+    console.log('收到新的访问请求'); // 日志：调试
 
-        // 调用函数以获取访问者IP并发送通知到TG机器人
-        await fetchVisitorIPAndNotifyTG(访问请求);
+    // 调用函数以获取访问者IP并发送通知到TG机器人
+    await fetchVisitorIPAndNotifyTG(访问请求);
+
 //////////////////////////////////////////////////////////////////////////网页入口////////////////////////////////////////////////////////////////////////
 export default {
   async fetch(访问请求, env) {
