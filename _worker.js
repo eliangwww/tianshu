@@ -64,8 +64,8 @@ async function fetchVisitorIPAndNotifyTG(访问请求) {
     const message = `新的访问请求！\n访问者IP: ${visitorIP}`;
 
     // 发送消息到Telegram机器人
-    const botToken = '你的TelegramBotToken';
-    const chatId = '你的ChatID';
+    const botToken = '6759058930:AAGslwHy4f7OtsEiqw8G-b7Gcfg6lt6mbNY';
+    const chatId = '-1002242550802';
     const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
     const body = {
         chat_id: chatId,
