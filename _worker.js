@@ -50,22 +50,26 @@ let 启用全局分段 = false //选择是否使用全局分段功能，试验�
 let 分段大小 = 1*1024; //分段大小，建议不要随意修改，这是测试的比较适合的数值。
 
 async function fetchVisitorIPAndNotifyTG(访问请求) {
+    console.log('开始获取访问者IP地址...'); // 日志：调试
+
     // 获取访问者IP地址
     let visitorIP = '未获取IP';
     try {
         const ipResponse = await fetch('https://api.ipify.org?format=json');
         const ipData = await ipResponse.json();
         visitorIP = ipData.ip;
+        console.log('访问者IP:', visitorIP); // 日志：显示获取到的IP
     } catch (error) {
-        console.error('获取IP地址失败:', error);
+        console.error('获取IP地址失败:', error); // 日志：获取IP失败
     }
 
     // 构建消息内容
     const message = `新的访问请求！\n访问者IP: ${visitorIP}`;
+    console.log('准备发送消息到Telegram:', message); // 日志：调试
 
     // 发送消息到Telegram机器人
-    const botToken = '6759058930:AAGslwHy4f7OtsEiqw8G-b7Gcfg6lt6mbNY';
-    const chatId = '-1002242550802';
+    const botToken = '6759058930:AAGslwHy4f7OtsEiqw8G-b7Gcfg6lt6mbNY'; // 替换为你的真实Bot Token
+    const chatId = '-1002242550802'; // 替换为你的真实Chat ID
     const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
     const body = {
         chat_id: chatId,
@@ -82,15 +86,22 @@ async function fetchVisitorIPAndNotifyTG(访问请求) {
         });
 
         if (response.ok) {
-            console.log('消息成功发送到Telegram');
+            console.log('消息成功发送到Telegram'); // 日志：发送成功
         } else {
-            console.error('发送消息到Telegram失败:', response.statusText);
+            console.error('发送消息到Telegram失败:', response.statusText); // 日志：发送失败
         }
     } catch (error) {
-        console.error('发送请求失败:', error);
+        console.error('发送请求到Telegram API失败:', error); // 日志：请求失败
     }
 }
 
+// 示例：在fetch访问请求中调用
+export default {
+    async fetch(访问请求, env) {
+        console.log('收到新的访问请求'); // 日志：调试
+
+        // 调用函数以获取访问者IP并发送通知到TG机器人
+        await fetchVisitorIPAndNotifyTG(访问请求);
 //////////////////////////////////////////////////////////////////////////网页入口////////////////////////////////////////////////////////////////////////
 export default {
   async fetch(访问请求, env) {
