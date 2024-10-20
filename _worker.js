@@ -1,4 +1,5 @@
-//1、天书版5.0终极版，支持S5全局反代，全局反代外部环境变量名【SOCKS5GLOBAL】，true和false
+
+//1、天书版5.0终极版_多优选_Clash防DNS、WebRTC泄漏_TLS_worker
 //2、支持反代开关，私钥开关，全局分段开关，订阅隐藏开关功能，去除UUID限制，clash私钥防止被薅请求数
 //3、又再重新修改了接口关闭逻辑，降低请求数（请求数大幅度降低）和错误率（worker引发异常为0，至少我测试的是）
 //4、修改传输方式，增加分片传输，可提升传输稳定性
@@ -13,44 +14,43 @@
 
 import { connect } from 'cloudflare:sockets';
 
-let 哎呀呀这是我的ID啊 = "66666"; //实际上这是你的订阅路径，支持任意大小写字母和数字，[域名/ID]进入订阅页面
-let 哎呀呀这是我的VL密钥 = "ae13a16c-cbcc-4dd6-bb51-5a70cc0a62a8"; //这是真实的UUID，会进行验证，建议修改为自己的规范化UUID
+let 哎呀呀这是我的ID啊 = "66666"; // 123456实际上这是你的订阅路径，支持任意大小写字母和数字，[域名/ID]进入订阅页面
+let 哎呀呀这是我的VL密钥 = "ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8"; // ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8这是真实的UUID，会进行验证，建议修改为自己的规范化UUID
 
 let 私钥开关 = false //是否启用私钥功能，true启用，false不启用，因为私钥功能只支持clash，如果打算使用通用订阅则需关闭私钥功能
-let 咦这是我的私钥哎 = "6666"; //这是你的私钥，提高隐秘性安全性，就算别人扫到你的域名也无法链接，再也不怕别人薅请求数了^_^
+let 咦这是我的私钥哎 = "123456"; // 123456这是你的私钥，提高隐秘性安全性，就算别人扫到你的域名也无法链接，再也不怕别人薅请求数了^_^
 
 let 隐藏订阅 = false //选择是否隐藏订阅页面，false不隐藏，true隐藏，当然隐藏后自己也无法订阅，因为配置固定，适合自己订阅后就隐藏，防止被爬订阅，并且可以到下方添加嘲讽语^_^
 let 嘲讽语 = "哎呀你找到了我，但是我就是不给你看，气不气，嘿嘿嘿" //隐藏订阅后，真实的订阅页面就会显示这段话，想写啥写啥
 
-let 我的优选 = 'cmcc.090227.xyz' //CF的节点，填域名或IP，好的优选一个就够了，由于CFcdn常规13端口开放，可以生成全端口节点
-let 我的优选2 = 'ct.090227.xyz'
-let 我的优选IPV6 = 'cmcc.090227.xyz' //CF的IPV6节点，填域名或IP，好的优选一个就够了，由于CFcdn常规13端口开放，可以生成全端口节点
+//let 我的优选 = '' //CF的节点，填域名或IP，好的优选一个就够了，由于CFcdn常规13端口开放，可以生成全端口节点
+//let 我的优选IPV6 = '' //CF的IPV6节点，填域名或IP，好的优选一个就够了，由于CFcdn常规13端口开放，可以生成全端口节点
+let 我的优选 = [ //#后面加备注，备注不能重复，否则会订阅失败。CF的节点，填域名或IP，默认443端口，ipv6需要加[ ]。以下提供几个例子：
+  'cf.090227.xyz:2053',
+  'cmcc.090227.xyz:2053',
+  'ct.090227.xyz:2053',
+];
 
-let 特殊优选 = 'www.visa.com' //非CF的节点，填域名或IP，结合你的反代一起使用的话，这个节点可以完全的固定落地地区，例如同时都使用美国的
-let 特殊优选的端口 = '443' //非CF的节点端口
-let 非CF节点是否打开tls = 'true' //非CF的节点TLS开关，true，false，通用订阅此功能无效，默认使用tls
+//多优选完全替代特殊优选，所有原版的特色优选已经注释掉
+
+//let 特殊优选 = '' //非CF的节点，填域名或IP，结合你的反代一起使用的话，这个节点可以完全的固定落地地区，例如同时都使用美国的
+//let 特殊优选的端口 = '' //非CF的节点端口
+//let 非CF节点是否打开tls = 'true' //非CF的节点TLS开关，true，false，通用订阅此功能无效，默认使用tls
 
 let 启用反代功能 = true //选择是否启用反代功能，false，true，现在你可以自由的选择是否启用反代功能了
 let 反代IP = [
-  'ts.hpc.tw',
-] //反代IP或域名，反代IP端口一般情况下不用填写，如果你非要用非标反代的话，可以填'ts.hpc.tw:443'这样
+  'ts.hpc.tw',//ts.hpc.tw
+] //反代IP或域名，反代IP端口一般情况下不用填写，如果你非要用非标反代的话，可以填'ts.hpc.tw:443'这样  ts.hpc.tw
 
-let 启用SOCKS5反代 = false //如果启用此功能，原始反代将失效
-let 启用SOCKS5全局反代 = false //选择是否启用SOCKS5全局反代，启用后所有访问都是S5的落地【无论你客户端选什么节点】，访问路径是客户端--CF--SOCKS5，当然启用此功能后延迟=CF+SOCKS5，带宽取决于SOCKS5的带宽，不再享受CF高速和随时满带宽的待遇，同时需关闭分段传输功能
-let 我的SOCKS5账号 = 'TG:CMLiussss@socks5.serv00.090227.xyz:35555' //格式'账号:密码@地址:端口'
+let 启用SOCKS5反代 = true //如果启用此功能，原始反代将失效
+let 我的SOCKS5账号 = 'TG:CMLiussss@socks5.serv00.090227.xyz:35555' //格式'账号:密码@地址:端口' TG:CMLiussss@socks5.serv00.090227.xyz:35555
 
-let 我的节点名字 = '🆓移动_请勿测速🚀' //自己的节点名字
-let 我的节点名字2 = '🆓电信_请勿测速🚀' //自己的节点名字
+//let 我的节点名字 = '逍遥君优选' //自己的节点名字
 
+let 伪装网页 = '' //填入伪装网页，格式'www.youku.com'，如果不填，脚本本身有个内置的简单代理页面，建议用小站伪装或者直接内置，比较靠谱
 
-
-let 伪装网页 = 'cfip.nyc.mn' //填入伪装网页，格式'www.youku.com'，如果不填，脚本本身有个内置的简单代理页面，建议用小站伪装或者直接内置，比较靠谱
-
-let 启用全局分段 = false //选择是否使用全局分段功能，试验功能，分段传输可以降低worker压力，提升传输稳定性，若启用了全局SOCKS5则需关闭此功能
+let 启用全局分段 = true //选择是否使用全局分段功能，试验功能，分段传输可以降低worker压力，提升传输稳定性。
 let 分段大小 = 1*1024; //分段大小，建议不要随意修改，这是测试的比较适合的数值。
-
-
-
 //////////////////////////////////////////////////////////////////////////网页入口////////////////////////////////////////////////////////////////////////
 export default {
   async fetch(访问请求, env) {
@@ -67,7 +67,7 @@ export default {
                       }
                   });
               }
-	      case `/${哎呀呀这是我的ID啊}/${转码}${转码2}`: {
+              case `/${哎呀呀这是我的ID啊}/${转码}${转码2}`: {
                   if (隐藏订阅) {
                   return new Response (`${嘲讽语}`, {
                   status: 200,
@@ -86,23 +86,24 @@ export default {
                 }
               }
               case `/${哎呀呀这是我的ID啊}/${小猫}${咪}`: {
-                  if (隐藏订阅) {
-                  return new Response (`${嘲讽语}`, {
-                  status: 200,
-                  headers: {
-                      "Content-Type": "text/plain;charset=utf-8",
-                      }
-                  });
-                  } else {
-                  const 小猫咪配置文件 = 给我小猫咪配置文件(访问请求.headers.get('Host'));
-                  return new Response(`${小猫咪配置文件}`, {
-                      status: 200,
-                      headers: {
-                          "Content-Type": "text/plain;charset=utf-8",
-                      }
-                  });
+                if (隐藏订阅) {
+                    return new Response(`${嘲讽语}`, {
+                        status: 200,
+                        headers: {
+                            "Content-Type": "text/plain;charset=utf-8",
+                        }
+                    });
+                } else {
+                    // 使用 async/await 处理异步
+                    const 小猫咪配置文件 = await 给我小猫咪配置文件(访问请求.headers.get('Host'));
+                    return new Response(`${小猫咪配置文件}`, {
+                        status: 200,
+                        headers: {
+                            "Content-Type": "text/plain;charset=utf-8",
+                        }
+                    });
                 }
-              }
+            }
               default:
               if (伪装网页) {
                   url.hostname = 伪装网页;
@@ -118,7 +119,6 @@ export default {
           FDIP = env.PROXYIP;
           我的SOCKS5账号 = env.SOCKS5 || 我的SOCKS5账号;
           启用SOCKS5反代 = (env.SOCKS5OPEN === 'true') ? true : (env.SOCKS5OPEN === 'false' ? false : 启用SOCKS5反代);
-          启用SOCKS5全局反代 = (env.SOCKS5GLOBAL === 'true') ? true : (env.SOCKS5GLOBAL === 'false' ? false : 启用SOCKS5全局反代);
           if (私钥开关) {
           const 验证我的私钥 = 访问请求.headers.get('my-key')
           if (验证我的私钥 === 咦这是我的私钥哎) {
@@ -385,10 +385,6 @@ for (let i = 0; i < 256; ++i) {
 }
 //第四步，建立VL--workers--外网的TCP握手协议
 async function TCP握手协议(远程传输, 识别地址类型, 访问地址, 访问端口, 写入数据请求, WS接口) {
-  if (启用反代功能 && 启用SOCKS5反代 && 启用SOCKS5全局反代) {
-    SOCKS5反代兜底();
-    return;
-  }
   反代数组 = await 获取反代IP列表();
   const 目标TCP接口 = await 创建TCP握手(访问地址, 访问端口);
   TCP接口访问WS(目标TCP接口, WS接口, SOCKS5反代兜底, 原始反代兜底);
@@ -447,7 +443,7 @@ async function TCP接口访问WS(TCP接口, WS接口, SOCKS5反代兜底, 原始
         }
     },
   }));
-  if (启用反代功能 && 启用SOCKS5全局反代 === false && 传入数据 === false) {
+  if (启用反代功能 && 传入数据 === false) {
     TCP接口.close();
       if (启用SOCKS5反代) {
         启用SOCKS5反代 = false;
@@ -604,385 +600,193 @@ return `
 猫咪的：https${符号}${hostName}/${哎呀呀这是我的ID啊}/${小猫}${咪}
 `;
 }
+
 function 给我通用配置文件(hostName) {
-const 特殊长链接Links = btoa(`
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-443
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-8443
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2053
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2083
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2087
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CMCC-2096
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-443
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:8443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-8443
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:2053?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-2053
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:2083?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-2083
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:2087?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-2087
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${我的优选2}:2096?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CT-2096
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${特殊优选}:${特殊优选的端口}?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#%E9%9D%9ECF
-${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${hostName}:443?encryption=none&security=tls&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#%E5%A4%87%E7%94%A8
-vless://ae13a35c-cbcc-4da6-bb51-5a70cc0a62a8@127.0.0.1:1234?security=tls&sni=net.001316.xyz&type=ws&path=/?ed%3D2560&host=net.001316.xyz&encryption=none#CFNAT
-vmess://eyJhZGQiOiJjZi4wOTAyMjcueHl6IiwiYWlkIjoiMCIsImhvc3QiOiJhcmdvLmNmaXAubnljLm1uIiwiaWQiOiJmYzQ0ZmU2YS1mMDgzLTQ1OTEtOWMwMy1mOGQ2MWRjMzkwN2YiLCJuZXQiOiJ3cyIsInBhdGgiOiJ2bWVzcz9lZD0yMDQ4IiwicG9ydCI6IjQ0MyIsInBzIjoi5rOi5YWwIiwic2N5IjoiYXV0byIsInNuaSI6ImNmLmNmaXAubnljLm1uIiwidGxzIjoidGxzIiwidHlwZSI6Im5vbmUiLCJ2IjoiMiJ9
-`);
-if (私钥开关) {
-  return `请先关闭私钥功能`
-}else {
-  return `${特殊长链接Links}`
+  const 默认端口 = '443';
+  const 已用备注集合 = new Map(); // 用于记录IP及其计数
+  const 特殊长链接Links = 我的优选.map(选择ip => {
+    let 查找ip, 查找port;
+    let 节点备注 = ''; // 用于存储节点备注
+    if (选择ip.includes('#')) {
+      [选择ip, 节点备注] = 选择ip.split('#'); // 分离节点备注
+    }
+    if (选择ip.startsWith('[')) {
+      // 处理IPv6
+      [查找ip, 查找port] = 选择ip.endsWith(']') ? [选择ip.slice(1, -1), ''] : 选择ip.slice(1).split(']:');
+      if (!查找port) 查找port = 默认端口;
+    } else {
+      // 处理IPv4
+      [查找ip, 查找port] = 选择ip.split(':');
+    }
+    const 最终IP = 查找ip.includes(':') ? `[${查找ip}]` : 查找ip;
+    const 最终端口 = 查找port ? 查找port : 默认端口;
+    // 处理节点备注重复的情况
+    const 节点名字 = 已用备注集合.has(`${节点备注 ? `${节点备注}` : `${最终IP}`}`) ? `${节点备注 ? `${节点备注}` : `${最终IP}`}(${已用备注集合.get(`${节点备注 ? `${节点备注}` : `${最终IP}`}`)})` : `${节点备注 ? `${节点备注}` : `${最终IP}`}`;
+    已用备注集合.set(`${节点备注 ? `${节点备注}` : `${最终IP}`}`, (已用备注集合.get(`${节点备注 ? `${节点备注}` : `${最终IP}`}`) || 0) + 1);
+    return (`${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${最终IP}:${最终端口}?security=tls&sni=${hostName}&type=ws&path=%2F%3Fed%3D2560&host=${hostName}&encryption=none#${节点名字}`);
+  });
+  if (私钥开关) {
+    return `请先关闭私钥功能`;
+  } else {
+    return btoa(unescape(encodeURIComponent(特殊长链接Links.join('\n'))));
+    //return (特殊长链接Links.join('\n'));
+  }
 }
-}
-function 给我小猫咪配置文件(hostName) {
-return `
+
+async function 给我小猫咪配置文件(hostName) {
+  const 默认端口 = '443';
+  const 已用备注集合1 = new Map(); // 用于记录IP及其计数
+  const 已用备注集合2 = new Map(); // 用于记录IP及其计数
+  const 已用备注集合3 = new Map(); // 用于记录IP及其计数
+  const 特殊长链接Links = 我的优选.map(选择ip => {
+    let 查找ip, 查找port;
+    let 节点备注 = ''; // 用于存储节点备注
+    if (选择ip.includes('#')) {
+      [选择ip, 节点备注] = 选择ip.split('#'); // 分离节点备注
+    }
+    if (选择ip.startsWith('[')) {
+      // 处理IPv6
+      [查找ip, 查找port] = 选择ip.endsWith(']') ? [选择ip.slice(1, -1), ''] : 选择ip.slice(1).split(']:');
+      if (!查找port) 查找port = 默认端口;
+    } else {
+      // 处理IPv4
+      [查找ip, 查找port] = 选择ip.split(':');
+    }
+    const 最终IP = 查找ip.includes(':') ? `${查找ip}` : 查找ip;
+    const 最终端口 = 查找port ? 查找port : 默认端口;
+    // 处理节点备注重复的情况
+    const 节点名字 = 已用备注集合1.has(`${节点备注 ? `${节点备注}` : `${最终IP}`}`) ? `${节点备注 ? `${节点备注}` : `${最终IP}`}(${已用备注集合1.get(`${节点备注 ? `${节点备注}` : `${最终IP}`}`)})` : `${节点备注 ? `${节点备注}` : `${最终IP}`}`;
+    已用备注集合1.set(`${节点备注 ? `${节点备注}` : `${最终IP}`}`, (已用备注集合1.get(`${节点备注 ? `${节点备注}` : `${最终IP}`}`) || 0) + 1);
+    return (`  - {name: ${节点名字},server: ${最终IP},port: ${最终端口},type: ${转码}${转码2},uuid: ${哎呀呀这是我的VL密钥},tls: true,alpn: [h3],skip-cert-verify: true,servername: ${hostName},client-fingerprint: random,network: ws,ws-opts: {path: "/?ed=2560",headers: {Host: ${hostName}}},udp: true}
+${我的私钥}`);
+  });
+  if (私钥开关) {
+      return `请先关闭私钥功能`;
+  } else {
+      let dns配置 = `port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+unified-delay: true
+global-client-fingerprint: chrome
 dns:
-  nameserver:
-    - 119.29.29.29
+  enable: true
+  listen: :53
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver: 
     - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
   fallback:
-    - 8.8.8.8
-    - tls://dns.google
-    - 2001:4860:4860::8888
-proxies:
-- name: 🇵🇱 波兰
-  server: cf.090227.xyz
-  port: 443
-  type: vmess
-  uuid: fc44fe6a-f083-4591-9c03-f8d61dc3907f
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  servername: cf.cfip.nyc.mn
-  network: ws
-  ws-opts: {path: "vmess?ed=2048", headers: {Host: argo.cfip.nyc.mn}}
-- name: ${我的节点名字}-tls-443
-  type: ${转码}${转码2}
-  server: ${我的优选}
-  port: 443
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: CFNAT
-  type: ${转码}${转码2}
-  server: 127.0.0.1
-  port: 1234
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-tls-8443
-  type: ${转码}${转码2}
-  server: ${我的优选}
-  port: 8443
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-tls-2053
-  type: ${转码}${转码2}
-  server: ${我的优选}
-  port: 2053
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-tls-2083
-  type: ${转码}${转码2}
-  server: ${我的优选}
-  port: 2083
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-tls-2087
-  type: ${转码}${转码2}
-  server: ${我的优选}
-  port: 2087
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-tls-2096
-  type: ${转码}${转码2}
-  server: ${我的优选}
-  port: 2096
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字2}-tls-443
-  type: ${转码}${转码2}
-  server: ${我的优选2}
-  port: 443
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字2}-tls-8443
-  type: ${转码}${转码2}
-  server: ${我的优选2}
-  port: 8443
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字2}-tls-2053
-  type: ${转码}${转码2}
-  server: ${我的优选2}
-  port: 2053
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字2}-tls-2083
-  type: ${转码}${转码2}
-  server: ${我的优选2}
-  port: 2083
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字2}-tls-2087
-  type: ${转码}${转码2}
-  server: ${我的优选2}
-  port: 2087
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字2}-tls-2096
-  type: ${转码}${转码2}
-  server: ${我的优选2}
-  port: 2096
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-非CF节点
-  type: ${转码}${转码2}
-  server: ${特殊优选}
-  port: ${特殊优选的端口}
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: ${非CF节点是否打开tls}
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-- name: ${我的节点名字}-备用IPV4节点
-  type: ${转码}${转码2}
-  server: ${hostName}
-  port: 443
-  uuid: ${哎呀呀这是我的VL密钥}
-  udp: false
-  tls: true
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-      ${我的私钥}
-proxy-groups:
-- name: 🚀 节点选择
+    - tls://1.0.0.1:853
+    - tls://dns.google:853
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    geosite:
+      - gfw
+    ipcidr:
+      - 240.0.0.0/4
+`;
+let proxy组 = `proxy-groups:
+- name: 节点选择
   type: select
   proxies:
-    - tls负载均衡
-    - 自动选择
-    - 🇵🇱 波兰
-    - CFNAT
-    - ${我的节点名字}-tls-443
-    - ${我的节点名字}-tls-8443
-    - ${我的节点名字}-tls-2053
-    - ${我的节点名字}-tls-2083
-    - ${我的节点名字}-tls-2087
-    - ${我的节点名字}-tls-2096
-    - ${我的节点名字2}-tls-443
-    - ${我的节点名字2}-tls-8443
-    - ${我的节点名字2}-tls-2053
-    - ${我的节点名字2}-tls-2083
-    - ${我的节点名字2}-tls-2087
-    - ${我的节点名字2}-tls-2096
-- name: 自动选择
+  - 自动选择
+  - DIRECT
+`;
+我的优选.forEach(选择ip => {
+  let 查找ip, 查找port;
+  let 节点备注 = ''; // 用于存储节点备注
+  if (选择ip.includes('#')) {
+    [选择ip, 节点备注] = 选择ip.split('#'); // 分离节点备注
+  }
+  if (选择ip.startsWith('[')) {
+    // 处理IPv6
+    [查找ip, 查找port] = 选择ip.endsWith(']') ? [选择ip.slice(1, -1), ''] : 选择ip.slice(1).split(']:');
+    if (!查找port) 查找port = 默认端口;
+  } else {
+    // 处理IPv4
+    [查找ip, 查找port] = 选择ip.split(':');
+  }
+  const 最终IP = 查找ip.includes(':') ? `${查找ip}` : 查找ip;
+  const 节点名字 = 已用备注集合2.has(`${节点备注 ? `${节点备注}` : `${最终IP}`}`) ? `${节点备注 ? `${节点备注}` : `${最终IP}`}(${已用备注集合2.get(`${节点备注 ? `${节点备注}` : `${最终IP}`}`)})` : `${节点备注 ? `${节点备注}` : `${最终IP}`}`;
+  已用备注集合2.set(`${节点备注 ? `${节点备注}` : `${最终IP}`}`, (已用备注集合2.get(`${节点备注 ? `${节点备注}` : `${最终IP}`}`) || 0) + 1);
+  proxy组 += `  - ${节点名字}\n`;
+});
+proxy组 += `- name: 自动选择
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-    - ${我的节点名字}-tls-443
-    - ${我的节点名字}-tls-8443
-    - ${我的节点名字}-tls-2053
-    - ${我的节点名字}-tls-2083
-    - ${我的节点名字}-tls-2087
-    - ${我的节点名字}-tls-2096
-    - ${我的节点名字2}-tls-443
-    - ${我的节点名字2}-tls-8443
-    - ${我的节点名字2}-tls-2053
-    - ${我的节点名字2}-tls-2083
-    - ${我的节点名字2}-tls-2087
-    - ${我的节点名字2}-tls-2096
-- name: 移动优选
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-    - ${我的节点名字}-tls-443
-    - ${我的节点名字}-tls-8443
-    - ${我的节点名字}-tls-2053
-    - ${我的节点名字}-tls-2083
-    - ${我的节点名字}-tls-2087
-    - ${我的节点名字}-tls-2096
-- name: 电信优选
-  type: url-test
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-    - ${我的节点名字2}-tls-443
-    - ${我的节点名字2}-tls-8443
-    - ${我的节点名字2}-tls-2053
-    - ${我的节点名字2}-tls-2083
-    - ${我的节点名字2}-tls-2087
-    - ${我的节点名字2}-tls-2096
-- name: tls负载均衡
-  type: load-balance
-  url: http://www.gstatic.com/generate_204
-  interval: 300
-  proxies:
-    - ${我的节点名字}-tls-443
-    - ${我的节点名字}-tls-8443
-    - ${我的节点名字}-tls-2053
-    - ${我的节点名字}-tls-2083
-    - ${我的节点名字}-tls-2087
-    - ${我的节点名字}-tls-2096
-    - ${我的节点名字2}-tls-443
-    - ${我的节点名字2}-tls-8443
-    - ${我的节点名字2}-tls-2053
-    - ${我的节点名字2}-tls-2083
-    - ${我的节点名字2}-tls-2087
-    - ${我的节点名字2}-tls-2096
-- name: 非CF节点
-  type: select
-  proxies:
-    - ${我的节点名字}-非CF节点
-- name: 漏网之鱼
-  type: select
-  proxies:
-    - DIRECT
-    - 🚀 节点选择
-    - 非CF节点
-rules:
-# 策略规则，部分规则需打开${小猫}${咪} mate的使用geoip dat版数据库，比如TG规则就需要，或者自定义geoip的规则订阅
-# 这是geoip的规则订阅链接，https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb
-# GPT规则
-- DOMAIN-KEYWORD,openai,🚀 节点选择
-- DOMAIN-SUFFIX,AI.com,🚀 节点选择
-- DOMAIN-SUFFIX,cdn.auth0.com,🚀 节点选择
-- DOMAIN-SUFFIX,openaiapi-site.azureedge.net,🚀 节点选择
-- DOMAIN-SUFFIX,opendns.com,🚀 节点选择
-- DOMAIN-SUFFIX,bing.com,🚀 节点选择
-- DOMAIN-SUFFIX,civitai.com,🚀 节点选择
-- DOMAIN,bard.google.com,🚀 节点选择
-- DOMAIN,ai.google.dev,🚀 节点选择
-- DOMAIN,gemini.google.com,🚀 节点选择
-- DOMAIN-SUFFIX,googleapis.com,🚀 节点选择
-- DOMAIN-SUFFIX,sentry.io,🚀 节点选择
-- DOMAIN-SUFFIX,intercom.io,🚀 节点选择
-- DOMAIN-SUFFIX,featuregates.org,🚀 节点选择
-- DOMAIN-SUFFIX,statsigapi.net,🚀 节点选择
-- DOMAIN-SUFFIX,claude.ai,🚀 节点选择
-- DOMAIN-SUFFIX,Anthropic.com,🚀 节点选择
-- DOMAIN-SUFFIX,opera-api.com,🚀 节点选择
-- DOMAIN-SUFFIX,aistudio.google.com,🚀 节点选择
-- DOMAIN-SUFFIX,auth0.com,🚀 节点选择
-- DOMAIN-SUFFIX,challenges.cloudflare.com,🚀 节点选择
-- DOMAIN-SUFFIX,chatgpt.com,🚀 节点选择
-- DOMAIN-SUFFIX,client-api.arkoselabs.com,🚀 节点选择
-- DOMAIN-SUFFIX,events.statsigapi.net,🚀 节点选择
-- DOMAIN-SUFFIX,identrust.com,🚀 节点选择
-- DOMAIN-SUFFIX,intercomcdn.com,🚀 节点选择
-- DOMAIN-SUFFIX,oaistatic.com,🚀 节点选择
-- DOMAIN-SUFFIX,oaiusercontent.com,🚀 节点选择
-- DOMAIN-SUFFIX,openai.com,🚀 节点选择
-- DOMAIN-SUFFIX,stripe.com,🚀 节点选择
-# GPT规则
-# - GEOSITE,category-ads,REJECT #简单广告过滤规则，要增加规则数可使用category-ads-all
-- GEOSITE,cn,DIRECT #国内域名直连规则
-- GEOIP,CN,DIRECT,no-resolve #国内IP直连规则
-- GEOSITE,cloudflare,DIRECT #CF域名直连规则
-- GEOIP,CLOUDFLARE,DIRECT,no-resolve #CFIP直连规则
-- GEOSITE,gfw,🚀 节点选择 #GFW域名规则
-- GEOSITE,google,🚀 节点选择 #GOOGLE域名规则
-- GEOIP,GOOGLE,🚀 节点选择,no-resolve #GOOGLE IP规则
-- GEOSITE,netflix,🚀 节点选择 #奈飞域名规则
-- GEOIP,NETFLIX,🚀 节点选择,no-resolve #奈飞IP规则
-- GEOSITE,telegram,🚀 节点选择 #TG域名规则
-- GEOIP,TELEGRAM,🚀 节点选择,no-resolve #TG IP规则
-- MATCH,漏网之鱼
+`;
+我的优选.forEach(选择ip => {
+  let 查找ip, 查找port;
+  let 节点备注 = ''; // 用于存储节点备注
+  if (选择ip.includes('#')) {
+    [选择ip, 节点备注] = 选择ip.split('#'); // 分离节点备注
+  }
+  if (选择ip.startsWith('[')) {
+    // 处理IPv6
+    [查找ip, 查找port] = 选择ip.endsWith(']') ? [选择ip.slice(1, -1), ''] : 选择ip.slice(1).split(']:');
+    if (!查找port) 查找port = 默认端口;
+  } else {
+    // 处理IPv4
+    [查找ip, 查找port] = 选择ip.split(':');
+  }
+  const 最终IP = 查找ip.includes(':') ? `${查找ip}` : 查找ip;
+  const 节点名字 = 已用备注集合3.has(`${节点备注 ? `${节点备注}` : `${最终IP}`}`) ? `${节点备注 ? `${节点备注}` : `${最终IP}`}(${已用备注集合3.get(`${节点备注 ? `${节点备注}` : `${最终IP}`}`)})` : `${节点备注 ? `${节点备注}` : `${最终IP}`}`;
+  已用备注集合3.set(`${节点备注 ? `${节点备注}` : `${最终IP}`}`, (已用备注集合3.get(`${节点备注 ? `${节点备注}` : `${最终IP}`}`) || 0) + 1);
+  proxy组 += `  - ${节点名字}\n`;
+});
+proxy组 += `rules:
 `
+const urls = [ // 使用你要处理的URL数组，添加更多的URL
+  'ruleset=节点选择,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/GoogleCNProxyIP.list',
+  'ruleset=DIRECT,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/LocalAreaNetwork.list',
+  'ruleset=DIRECT,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/UnBan.list',
+  'ruleset=DIRECT,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/GoogleCN.list',
+  'ruleset=DIRECT,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/SteamCN.list',
+  'ruleset=DIRECT,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list',
+  'ruleset=DIRECT,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list',
+  'ruleset=DIRECT,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaIp.list',
+];
+async function processUrls(urls) {
+  let allProcessedLines = [];
+  for (const url of urls) {
+      const [ruleset, fetchUrl] = url.split(',');
+      const strippedRuleset = ruleset.replace('ruleset=', ''); 
+      try {
+          const response = await fetch(fetchUrl);
+          const text = await response.text();
+          const lines = text.split('\n');
+          const processedLines = lines
+              .filter(line => line.trim() !== '' && !line.startsWith('#')) // 过滤空行和以#开头的行
+              .map(line => {
+                  if (line.includes('no-resolve')) {
+                      return `  - ${line.replace('no-resolve', `${strippedRuleset},no-resolve`)}`;
+                  } else {
+                      return `  - ${line},${strippedRuleset}`;
+                  }
+              });
+          allProcessedLines.push(...processedLines);
+      } catch (error) {
+          console.error(`Error fetching ${fetchUrl}:`, error);
+      }
+  }
+  return allProcessedLines;
+}
+const processedUrls = await processUrls(urls);
+return dns配置 + "proxies:\n" + 特殊长链接Links.join('') + proxy组 +`  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,节点选择
+  - DOMAIN-SUFFIX,services.googleapis.cn,节点选择
+`+ processedUrls.join('\n')+`
+  - GEOIP,CN,DIRECT,no-resolve
+  - MATCH,节点选择
+`;
+  }
 }
