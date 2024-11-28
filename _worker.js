@@ -13,7 +13,7 @@
 
 import { connect } from 'cloudflare:sockets';
 
-let 哎呀呀这是我的ID啊 = "66666"; //实际上这是你的订阅路径，支持任意大小写字母和数字，[域名/ID]进入订阅页面
+let 哎呀呀这是我的ID啊 = "sub"; //实际上这是你的订阅路径，支持任意大小写字母和数字，[域名/ID]进入订阅页面
 let 哎呀呀这是我的VL密钥 = "ae13a16c-cbcc-4dd6-bb51-5a70cc0a62a8"; //这是真实的UUID，会进行验证，建议修改为自己的规范化UUID
 
 let 私钥开关 = false //是否启用私钥功能，true启用，false不启用，因为私钥功能只支持clash，如果打算使用通用订阅则需关闭私钥功能
@@ -35,7 +35,7 @@ let 反代IP = [
   'ts.hpc.tw',
 ] //反代IP或域名，反代IP端口一般情况下不用填写，如果你非要用非标反代的话，可以填'ts.hpc.tw:443'这样
 
-let 启用SOCKS5反代 = true //如果启用此功能，原始反代将失效
+let 启用SOCKS5反代 = false //如果启用此功能，原始反代将失效
 let 启用SOCKS5全局反代 = false //选择是否启用SOCKS5全局反代，启用后所有访问都是S5的落地【无论你客户端选什么节点】，访问路径是客户端--CF--SOCKS5，当然启用此功能后延迟=CF+SOCKS5，带宽取决于SOCKS5的带宽，不再享受CF高速和随时满带宽的待遇，同时需关闭分段传输功能
 let 我的SOCKS5账号 = 'cmcc:cmcc@eliangwww.serv00.net:11395' //格式'账号:密码@地址:端口'
 
