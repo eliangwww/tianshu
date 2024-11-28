@@ -24,58 +24,8 @@ let 我的优选 = [
   'www.visa.com',
 ] //格式127.0.0.1:443#US@notls或[2606:4700:3030:0:4563:5696:a36f:cdc5]:2096#US，如果#US不填则使用统一名称，如果@notls不填则默认使用TLS，每行一个，如果不填任何节点会生成一个默认自身域名的小黄云节点
 let 我的优选TXT ='https://raw.cfip.nyc.mn/eliangwww/eliang_clash/refs/heads/main/data/ipss.txt?token=12123' //优选TXT路径，表达格式与上述相同，使用TXT时脚本内部填写的节点无效，二选一
-// 假设远程文件URL
-let txtFileUrl = 'https://raw.cfip.nyc.mn/eliangwww/eliang_clash/refs/heads/main/data/ipss.txt?token=12123';  // 替换为实际的远程文件URL
-
-// 用来存储分类结果
-let 分类结果 = {};
-let 编号后的变量组 = [];
-let 节点名称 = "节点名称";
-
-// 使用 fetch 获取远程文件内容
-fetch(txtFileUrl)
-  .then(response => response.text()) // 获取文件的文本内容
-  .then(text => {
-    // 将文件内容按行分割成数组
-    let 我的优选TXT = text.split('\n');
-
-    // 遍历“我的优选TXT”中的内容
-    我的优选TXT.forEach((item, index) => {
-        // 清理空格和换行符
-        item = item.trim();
-
-        // 跳过空行
-        if (item === "") return;
-
-        // 找到“#”的位置
-        let hashIndex = item.indexOf("#");
-        let 分类 = "";
-
-        // 如果没有#号或#后没有内容，归为一类
-        if (hashIndex === -1 || hashIndex === item.length - 1) {
-            分类 = "无分类";
-        } else {
-            // 如果有#号且#后有内容，取#号后面的部分作为分类
-            分类 = item.substring(hashIndex + 1);
-        }
-
-        // 如果分类已经存在，给该分类增加编号
-        if (!分类结果[分类]) {
-            分类结果[分类] = 1;
-        } else {
-            分类结果[分类]++;
-        }
-
-        // 创建带编号的变量名，并只保留分类内容
-        let 编号后的变量名 = `${分类}${分类结果[分类]}`;
-        编号后的变量组.push(编号后的变量名);
-    });
-
-    
-
 let 启用反代功能 = true //选择是否启用反代功能【总开关】，false，true，现在你可以自由的选择是否启用反代功能了
 let 反代IP = 'ts.hpc.tw' //反代IP或域名，反代IP端口一般情况下不用填写，如果你非要用非标反代的话，可以填'ts.hpc.tw:443'这样
-
 let 启用SOCKS5反代 = false //如果启用此功能，原始反代将失效
 let 启用SOCKS5全局反代 = false //选择是否启用SOCKS5全局反代，启用后所有访问都是S5的落地【无论你客户端选什么节点】，访问路径是客户端--CF--SOCKS5，当然启用此功能后延迟=CF+SOCKS5，带宽取决于SOCKS5的带宽，不再享受CF高速和随时满带宽的待遇
 let 我的SOCKS5账号 = '' //格式'账号:密码@地址:端口'
@@ -394,7 +344,7 @@ const 生成节点 = (我的优选) => {
     const 地址 = 拆分地址端口.join(":").replace(/^\[(.+)\]$/, '$1');
     const TLS开关 = tls === 'notls' ? 'false' : 'true';
   return {
-    nodeConfig: `- name: ${节点名字} + " " + 编号后的变量组.join(" ")
+  nodeConfig: (序号) => `- name: ${节点名字}-${序号}
   type: ${转码}${转码2}
   server: ${地址}
   port: ${端口}
@@ -408,12 +358,13 @@ const 生成节点 = (我的优选) => {
     headers:
       Host: ${hostName}
       ${我的私钥}`,
-    proxyConfig: `    - ${节点名字}-${地址}-${端口}`
-    };
-  });
+  proxyConfig: (序号) => `    - ${节点名字}-${序号}`
 };
-const 节点配置 = 生成节点(我的优选).map(node => node.nodeConfig).join("\n");
-const 代理配置 = 生成节点(我的优选).map(node => node.proxyConfig).join("\n");
+
+// 假设 生成节点 函数会生成一个包含多个节点的数组
+const 节点配置 = 生成节点(我的优选).map((node, index) => node.nodeConfig(index + 1)).join("\n");
+const 代理配置 = 生成节点(我的优选).map((node, index) => node.proxyConfig(index + 1)).join("\n");
+
 return `
 dns:
   nameserver:
@@ -442,6 +393,7 @@ ${代理配置}
   proxies:
     - DIRECT
     - 🚀 节点选择
+`;
 rules: # 本人自用规则，不一定适合所有人所有客户端，如客户端因规则问题无法订阅就删除对应规则吧，每个人都有自己习惯的规则，自行研究哦
 # 策略规则，建议使用meta内核，部分规则需打开${小猫}${咪} mate的使用geoip dat版数据库，比如TG规则就需要，或者自定义geoip的规则订阅
 # 这是geoip的规则订阅链接，https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb
