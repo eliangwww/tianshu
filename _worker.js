@@ -24,6 +24,54 @@ let 我的优选 = [
   'www.visa.com',
 ] //格式127.0.0.1:443#US@notls或[2606:4700:3030:0:4563:5696:a36f:cdc5]:2096#US，如果#US不填则使用统一名称，如果@notls不填则默认使用TLS，每行一个，如果不填任何节点会生成一个默认自身域名的小黄云节点
 let 我的优选TXT ='https://raw.cfip.nyc.mn/eliangwww/eliang_clash/refs/heads/main/data/ipss.txt?token=12123' //优选TXT路径，表达格式与上述相同，使用TXT时脚本内部填写的节点无效，二选一
+// 假设远程文件URL
+let txtFileUrl = 'https://example.com/my-preferred-nodes.txt';  // 替换为实际的远程文件URL
+
+// 用来存储分类结果
+let 分类结果 = {};
+let 编号后的变量组 = [];
+let 节点名称 = "节点名称";
+
+// 使用 fetch 获取远程文件内容
+fetch(txtFileUrl)
+  .then(response => response.text()) // 获取文件的文本内容
+  .then(text => {
+    // 将文件内容按行分割成数组
+    let 我的优选TXT = text.split('\n');
+
+    // 遍历“我的优选TXT”中的内容
+    我的优选TXT.forEach((item, index) => {
+        // 清理空格和换行符
+        item = item.trim();
+
+        // 跳过空行
+        if (item === "") return;
+
+        // 找到“#”的位置
+        let hashIndex = item.indexOf("#");
+        let 分类 = "";
+
+        // 如果没有#号或#后没有内容，归为一类
+        if (hashIndex === -1 || hashIndex === item.length - 1) {
+            分类 = "无分类";
+        } else {
+            // 如果有#号且#后有内容，取#号后面的部分作为分类
+            分类 = item.substring(hashIndex + 1);
+        }
+
+        // 如果分类已经存在，给该分类增加编号
+        if (!分类结果[分类]) {
+            分类结果[分类] = 1;
+        } else {
+            分类结果[分类]++;
+        }
+
+        // 创建带编号的变量名，并只保留分类内容
+        let 编号后的变量名 = `${分类}${分类结果[分类]}`;
+        编号后的变量组.push(编号后的变量名);
+    });
+
+    
 
 let 启用反代功能 = true //选择是否启用反代功能【总开关】，false，true，现在你可以自由的选择是否启用反代功能了
 let 反代IP = 'ts.hpc.tw' //反代IP或域名，反代IP端口一般情况下不用填写，如果你非要用非标反代的话，可以填'ts.hpc.tw:443'这样
@@ -346,7 +394,7 @@ const 生成节点 = (我的优选) => {
     const 地址 = 拆分地址端口.join(":").replace(/^\[(.+)\]$/, '$1');
     const TLS开关 = tls === 'notls' ? 'false' : 'true';
   return {
-    nodeConfig: `- name: ${节点名字}-${地址}-${端口}
+    nodeConfig: `- name: ${节点名字} + " " + 编号后的变量组.join(" ")
   type: ${转码}${转码2}
   server: ${地址}
   port: ${端口}
