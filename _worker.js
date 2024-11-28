@@ -360,7 +360,7 @@ const 生成节点 = (我的优选) => {
     headers:
       Host: ${hostName}
       ${我的私钥}`,
-    proxyConfig: `    - ${节点名字}-${地址}-${端口}`
+    proxyConfig: `    - ${节点名字}`
     };
   });
 };
