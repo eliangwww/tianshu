@@ -329,7 +329,7 @@ if (私钥开关) {
     const 端口 =拆分地址端口.length > 1 ? Number(拆分地址端口.pop()) : 443;
     const 地址 = 拆分地址端口.join(":");
     const TLS开关 = tls === 'notls' ? 'security=none' : 'security=tls';
-    return `${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${地址}:${端口}?encryption=none&${TLS开关}&sni=${hostName}&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${节点名字}`;
+    return `${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${地址}:${端口}?encryption=none&${TLS开关}&sni=${hostName}&type=ws&host=${hostName}&path=/eliangwww#${节点名字}`;
   }).join("\n");
 }
 }
@@ -356,7 +356,7 @@ const 生成节点 = (我的优选) => {
   sni: ${hostName}
   network: ws
   ws-opts:
-    path: "/?ed=2560"
+    path: "/eliangwww"
     headers:
       Host: ${hostName}
       ${我的私钥}`,
