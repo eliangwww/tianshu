@@ -346,7 +346,7 @@ const 生成节点 = (我的优选) => {
     const 地址 = 拆分地址端口.join(":").replace(/^\[(.+)\]$/, '$1');
     const TLS开关 = tls === 'notls' ? 'false' : 'true';
   return {
-    nodeConfig: `- name: ${节点名字}-${地址}-${端口}
+    nodeConfig: `- name: ${节点名字}}
   type: ${转码}${转码2}
   server: ${地址}
   port: ${端口}
@@ -360,7 +360,7 @@ const 生成节点 = (我的优选) => {
     headers:
       Host: ${hostName}
       ${我的私钥}`,
-    proxyConfig: `    - ${节点名字}-${地址}-${端口}`
+    proxyConfig: `    - ${节点名字}`
     };
   });
 };
