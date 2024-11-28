@@ -54,14 +54,14 @@ export default {
         我的优选 = 优选节点 || 我的优选
       }
       switch (url.pathname) {
-        case `/${哎呀呀这是我的ID啊}`: {
+        case `/${哎呀呀这是我的ID啊}/panel`: {
           const 订阅页面 = 给我订阅页面(哎呀呀这是我的ID啊, 访问请求.headers.get('Host'));
           return new Response(`${订阅页面}`, {
             status: 200,
             headers: { "Content-Type": "text/plain;charset=utf-8" }
           });
         }
-        case `/${哎呀呀这是我的ID啊}/${转码}${转码2}`: {
+        case `/${哎呀呀这是我的ID啊}/eliangwww`: {
           if (隐藏订阅) {
             return new Response (`${嘲讽语}`, {
               status: 200,
@@ -75,7 +75,7 @@ export default {
             });
           }
         }
-        case `/${哎呀呀这是我的ID啊}/${小猫}${咪}`: {
+        case `/${哎呀呀这是我的ID啊}`: {
           if (隐藏订阅) {
             return new Response (`${嘲讽语}`, {
               status: 200,
