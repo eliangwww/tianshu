@@ -317,13 +317,6 @@ return `
 }
 
 // host/vless base64加密
-function safeBtoa(str) {
-  // 创建 TextEncoder 将字符串转为 UTF-8 编码
-  const utf8Bytes = new TextEncoder().encode(str);
-  // 将 UTF-8 字节数组转换为 Base64
-  return btoa(String.fromCharCode.apply(null, utf8Bytes));
-}
-
 function 给我通用配置文件(hostName) {
   if (我的优选.length === 0) {
     我的优选 = [`${hostName}:443`];
