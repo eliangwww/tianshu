@@ -346,7 +346,7 @@ const 生成节点 = (我的优选) => {
     const 地址 = 拆分地址端口.join(":").replace(/^\[(.+)\]$/, '$1');
     const TLS开关 = tls === 'notls' ? 'false' : 'true';
   return {
-    nodeConfig: `- name: ${节点名字}}
+    nodeConfig: `- name: ${节点名字}
   type: ${转码}${转码2}
   server: ${地址}
   port: ${端口}
