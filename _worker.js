@@ -23,14 +23,16 @@ let 嘲讽语 = "哎呀你找到了我，但是我就是不给你看，气不气
 let 我的优选 = [
   'www.visa.com',
 ] //格式127.0.0.1:443#US@notls或[2606:4700:3030:0:4563:5696:a36f:cdc5]:2096#US，如果#US不填则使用统一名称，如果@notls不填则默认使用TLS，每行一个，如果不填任何节点会生成一个默认自身域名的小黄云节点
-let 我的优选TXT ='https://raw.cfip.nyc.mn/eliangwww/eliang_clash/refs/heads/main/data/ipss.txt?token=12123' //优选TXT路径，表达格式与上述相同，使用TXT时脚本内部填写的节点无效，二选一
+let 我的优选TXT ='' //优选TXT路径，表达格式与上述相同，使用TXT时脚本内部填写的节点无效，二选一
+
 let 启用反代功能 = true //选择是否启用反代功能【总开关】，false，true，现在你可以自由的选择是否启用反代功能了
 let 反代IP = 'ts.hpc.tw' //反代IP或域名，反代IP端口一般情况下不用填写，如果你非要用非标反代的话，可以填'ts.hpc.tw:443'这样
+
 let 启用SOCKS5反代 = false //如果启用此功能，原始反代将失效
 let 启用SOCKS5全局反代 = false //选择是否启用SOCKS5全局反代，启用后所有访问都是S5的落地【无论你客户端选什么节点】，访问路径是客户端--CF--SOCKS5，当然启用此功能后延迟=CF+SOCKS5，带宽取决于SOCKS5的带宽，不再享受CF高速和随时满带宽的待遇
 let 我的SOCKS5账号 = '' //格式'账号:密码@地址:端口'
 
-let 我的节点名字 = 'R佬订阅' //自己的节点名字【统一名称】
+let 我的节点名字 = '天书' //自己的节点名字【统一名称】
 
 let 伪装网页 = 'www.cfip.nyc.mn' //填入伪装网页，格式'www.youku.com'，建议用小站伪装，比较靠谱
 
@@ -344,7 +346,7 @@ const 生成节点 = (我的优选) => {
     const 地址 = 拆分地址端口.join(":").replace(/^\[(.+)\]$/, '$1');
     const TLS开关 = tls === 'notls' ? 'false' : 'true';
   return {
-  nodeConfig: (序号) => `- name: ${节点名字}-${序号}
+    nodeConfig: `- name: ${节点名字}-${地址}-${端口}
   type: ${转码}${转码2}
   server: ${地址}
   port: ${端口}
@@ -358,13 +360,12 @@ const 生成节点 = (我的优选) => {
     headers:
       Host: ${hostName}
       ${我的私钥}`,
-  proxyConfig: (序号) => `    - ${节点名字}-${序号}`
+    proxyConfig: `    - ${节点名字}-${地址}-${端口}`
+    };
+  });
 };
-
-// 假设 生成节点 函数会生成一个包含多个节点的数组
-const 节点配置 = 生成节点(我的优选).map((node, index) => node.nodeConfig(index + 1)).join("\n");
-const 代理配置 = 生成节点(我的优选).map((node, index) => node.proxyConfig(index + 1)).join("\n");
-
+const 节点配置 = 生成节点(我的优选).map(node => node.nodeConfig).join("\n");
+const 代理配置 = 生成节点(我的优选).map(node => node.proxyConfig).join("\n");
 return `
 dns:
   nameserver:
