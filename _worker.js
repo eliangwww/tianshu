@@ -62,7 +62,7 @@ export default {
           const 订阅页面 = 给我订阅页面(哎呀呀这是我的ID啊, 访问请求.headers.get('Host'));
           return new Response(`${订阅页面}`, {
             status: 200,
-            headers: { "Content-Type": "text/plain;charset=utf-8" }
+            headers: { "Content-Type": "text/html;charset=utf-8" }
           });
         }
         case `/${哎呀呀这是我的ID啊}/eliangwww`: {
