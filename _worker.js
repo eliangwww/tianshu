@@ -320,23 +320,30 @@ return `
 `;
 }
 function 给我通用配置文件(hostName) {
-if (我的优选.length === 0){
-  我的优选 = [`${hostName}:443`]
+  if (我的优选.length === 0) {
+    我的优选 = [`${hostName}:443`];
+  }
+
+  if (私钥开关) {
+    return `请先关闭私钥功能`;
+  } else {
+    const 订阅内容 = 我的优选.map(获取优选 => {
+      const [主内容, tls] = 获取优选.split("@");
+      const [地址端口, 节点名字 = 我的节点名字] = 主内容.split("#");
+      const 拆分地址端口 = 地址端口.split(":");
+      const 端口 = 拆分地址端口.length > 1 ? Number(拆分地址端口.pop()) : 443;
+      const 地址 = 拆分地址端口.join(":");
+      const TLS开关 = tls === 'notls' ? 'security=none' : 'security=tls';
+      
+      // 生成完整的节点配置
+      return `${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${地址}:${端口}?encryption=none&${TLS开关}&sni=${hostName}&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${节点名字}`;
+    }).join("\n");
+
+    // 使用 Base64 编码返回结果
+    return btoa(订阅内容);
+  }
 }
-if (私钥开关) {
-  return `请先关闭私钥功能`
-}else {
-  return 我的优选.map(获取优选 => {
-    const [主内容,tls] = 获取优选.split("@");
-    const [地址端口, 节点名字 = 我的节点名字] = 主内容.split("#");
-    const 拆分地址端口 = 地址端口.split(":");
-    const 端口 =拆分地址端口.length > 1 ? Number(拆分地址端口.pop()) : 443;
-    const 地址 = 拆分地址端口.join(":");
-    const TLS开关 = tls === 'notls' ? 'security=none' : 'security=tls';
-    return `${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${地址}:${端口}?encryption=none&${TLS开关}&sni=${hostName}&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${节点名字}`;
-  }).join("\n");
-}
-}
+
 function 给我小猫咪配置文件(hostName) {
 if (我的优选.length === 0){
   我的优选 = [`${hostName}:443`]
