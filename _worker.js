@@ -394,7 +394,7 @@ return `
   <h1>订阅生成页面</h1>
   <div class="container">
     <div class="link">
-      <span class="code">https${符号}${hostName}/${哎呀呀这是我的ID啊}/clash</span>
+      <span class="code">https${符号}${hostName}/${哎呀呀这是我的ID啊}/vless</span>
       <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}/vless')">复制链接</button>
     </div>
     <div class="link">
@@ -402,7 +402,7 @@ return `
       <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}/clash')">复制链接</button>
     </div>
     <div class="tg-button">
-      <a href="https://t.me/你的Telegram用户名" target="_blank">联系 Telegram</a>
+      <a href="https://t.me/eliang_privatebot" target="_blank">失效联系我！</a>
     </div>
   </div>
 
