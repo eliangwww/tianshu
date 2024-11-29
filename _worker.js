@@ -312,11 +312,12 @@ if (私钥开关) {
 }
 function 给我订阅页面(哎呀呀这是我的ID啊, hostName) {
 return `
-1、本worker的私钥功能只支持${小猫}${咪}，仅open${小猫}${咪}和${小猫}${咪} meta测试过，其他${小猫}${咪}类软件自行测试
-2、若使用通用订阅请关闭私钥功能
-3、其他需求自行研究
-通用的：https${符号}${hostName}/${哎呀呀这是我的ID啊}/${转码}${转码2}
-猫咪的：https${符号}${hostName}/${哎呀呀这是我的ID啊}/${小猫}${咪}
+  <html>
+    <head><title>测试页面</title></head>
+    <body>
+      <h1>这是测试 HTML 内容</h1>
+    </body>
+  </html>
 `;
 }
 function 给我通用配置文件(hostName) {
