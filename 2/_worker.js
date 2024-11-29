@@ -58,14 +58,14 @@ export default {
         我的优选 = 优选节点 || 我的优选
       }
       switch (url.pathname) {
-        case `/${哎呀呀这是我的ID啊}/panel`: {
+        case `/index`: {
           const 订阅页面 = 给我订阅页面(哎呀呀这是我的ID啊, 访问请求.headers.get('Host'));
           return new Response(`${订阅页面}`, {
             status: 200,
             headers: { "Content-Type": "text/plain;charset=utf-8" }
           });
         }
-        case `/${哎呀呀这是我的ID啊}/eliangwww`: {
+        case `/${哎呀呀这是我的ID啊}/vless`: {
           if (隐藏订阅) {
             return new Response (`${嘲讽语}`, {
               status: 200,
@@ -312,11 +312,114 @@ if (私钥开关) {
 }
 function 给我订阅页面(哎呀呀这是我的ID啊, hostName) {
 return `
-1、本worker的私钥功能只支持${小猫}${咪}，仅open${小猫}${咪}和${小猫}${咪} meta测试过，其他${小猫}${咪}类软件自行测试
-2、若使用通用订阅请关闭私钥功能
-3、其他需求自行研究
-通用的：https${符号}${hostName}/${哎呀呀这是我的ID啊}/${转码}${转码2}
-猫咪的：https${符号}${hostName}/${哎呀呀这是我的ID啊}/${小猫}${咪}
+ <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>订阅生成页面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #45a049;
+    }
+    .code {
+      font-family: monospace;
+      font-size: 14px;
+      color: #555;
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+    .tg-button {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .tg-button a {
+      background-color: #0088cc;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    .tg-button a:hover {
+      background-color: #0077aa;
+    }
+  </style>
+</head>
+<body>
+  <h1>订阅生成页面</h1>
+  <div class="container">
+    <div class="link">
+      <span class="code">https${符号}${hostName}/${哎呀呀这是我的ID啊}/vless</span>
+      <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}/vless')">复制链接</button>
+    </div>
+    <div class="link">
+      <span class="code">https${符号}${hostName}/${哎呀呀这是我的ID啊}/${小猫}${咪}</span>
+      <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}')">复制链接</button>
+    </div>
+    <div class="tg-button">
+      <a href="https://t.me/eliang_privatebot" target="_blank">失效联系我！</a>
+    </div>
+  </div>
+
+  <script>
+    // 复制到剪贴板功能
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('复制成功！' );
+      }).catch(err => {
+        console.error('复制失败！', err);
+      });
+    }
+  </script>
+</body>
+</html>
+
+
 `;
 }
 function 给我通用配置文件(hostName) {
