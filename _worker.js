@@ -50,9 +50,11 @@ export default {
     const url = new URL(访问请求.url);
     if (!读取我的请求标头 || 读取我的请求标头 !== 'websocket') {
       if (我的优选TXT) {
-        const 读取优选文本 = await fetch(我的优选TXT);
-        const 转换优选文本 = await 读取优选文本.text();
-        const 优选节点 = 转换优选文本.split('\n').map(line => line.trim()).filter(line => line);
+        const 读取优选文本 = await Promise.all(我的优选TXT.map(url => fetch(url).then(response => response.text())));
+        const 转换优选文本 = 读取优选文本.flat();
+        const 优选节点 = 转换优选文本
+    .map(line => line.split('\n').map(line => line.trim()).filter(line => line)) // Split and clean each line
+    .flat();
         我的优选 = 优选节点 || 我的优选
       }
       switch (url.pathname) {
