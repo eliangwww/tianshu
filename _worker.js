@@ -312,7 +312,7 @@ if (私钥开关) {
 }
 function 给我订阅页面(哎呀呀这是我的ID啊, hostName) {
 return `
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -371,18 +371,38 @@ return `
       flex-grow: 1;
       margin-right: 10px;
     }
+    .tg-button {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .tg-button a {
+      background-color: #0088cc;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    .tg-button a:hover {
+      background-color: #0077aa;
+    }
   </style>
 </head>
 <body>
   <h1>订阅生成页面</h1>
   <div class="container">
     <div class="link">
-      <span class="code">https${符号}${hostName}/${哎呀呀这是我的ID啊}/${转码}${转码2}</span>
-      <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}/${转码}${转码2}')">复制链接</button>
+      <span class="code">https${符号}${hostName}/${哎呀呀这是我的ID啊}/clash</span>
+      <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}/vless')">复制链接</button>
     </div>
     <div class="link">
       <span class="code">https${符号}${hostName}/${哎呀呀这是我的ID啊}/${小猫}${咪}</span>
-      <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}/${小猫}${咪}')">复制链接</button>
+      <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}/clash')">复制链接</button>
+    </div>
+    <div class="tg-button">
+      <a href="https://t.me/你的Telegram用户名" target="_blank">联系 Telegram</a>
     </div>
   </div>
 
@@ -390,14 +410,16 @@ return `
     // 复制到剪贴板功能
     function copyToClipboard(text) {
       navigator.clipboard.writeText(text).then(() => {
-        alert('链接已复制到剪贴板: ' + text);
+        alert('复制成功！' );
       }).catch(err => {
-        console.error('复制失败:', err);
+        console.error('复制失败！', err);
       });
     }
   </script>
 </body>
 </html>
+
+    
 
 `;
 }
