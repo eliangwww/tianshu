@@ -55,7 +55,7 @@ export default {
         const 优选节点 = 转换优选文本
     .map(line => line.split('\n').map(line => line.trim()).filter(line => line)) // Split and clean each line
     .flat();
-        我的优选 = 优选节点 && 我的优选
+        我的优选 = 优选节点 || 我的优选
       }
       switch (url.pathname) {
         case `/${哎呀呀这是我的ID啊}/panel`: {
