@@ -443,6 +443,9 @@ function 给我通用配置文件(hostName) {
       return `${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${地址}:${端口}?encryption=none&${TLS开关}&sni=${hostName}&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${节点名字}`;
     }).join("\n");
 
+    // 将订阅内容进行 Base64 编码
+    const encodedContent = Buffer.from(订阅内容).toString('base64');
+    return encodedContent;
   }
 }
 
