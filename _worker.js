@@ -444,7 +444,7 @@ function 给我通用配置文件(hostName) {
     }).join("\n");
 
     // 将订阅内容进行 Base64 编码
-    const encodedContent = Buffer.from(订阅内容).toString('base64');
+    const encodedContent = btoa(订阅内容);
     return encodedContent;
   }
 }
