@@ -442,13 +442,14 @@ function 给我通用配置文件(hostName) {
       return `${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${地址}:${端口}?encryption=none&${TLS开关}&sni=${hostName}&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${节点名字}`;
     }).join("\n");
 
-    // Base64 编码：这里会根据环境（Node.js 或浏览器）处理
+    // 处理 Base64 编码：对字符串进行 UTF-8 编码
     if (typeof Buffer !== 'undefined') {
       // Node.js 环境
-      return Buffer.from(订阅内容).toString('base64');
+      return Buffer.from(订阅内容, 'utf-8').toString('base64');
     } else if (typeof btoa !== 'undefined') {
-      // 浏览器环境
-      return btoa(订阅内容);
+      // 浏览器环境：需要转换为UTF-8编码
+      const utf8String = unescape(encodeURIComponent(订阅内容)); // 转换为 UTF-8 编码
+      return btoa(utf8String);
     } else {
       // 如果既没有 Buffer，也没有 btoa
       console.error('无法进行Base64编码：当前环境不支持');
@@ -456,6 +457,7 @@ function 给我通用配置文件(hostName) {
     }
   }
 }
+
 
 function 给我小猫咪配置文件(hostName) {
 if (我的优选.length === 0){
