@@ -438,6 +438,8 @@ if (私钥开关) {
     const TLS开关 = tls === 'notls' ? 'security=none' : 'security=tls';
     return `${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${地址}:${端口}?encryption=none&${TLS开关}&sni=${hostName}&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${节点名字}`;
   }).join("\n");
+  const encodedContent = btoa(订阅内容);
+  return encodedContent;
 }
 }
 function 给我小猫咪配置文件(hostName) {
