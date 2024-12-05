@@ -79,7 +79,7 @@ export default {
             });
           }
         }
-        case `/${哎呀呀这是我的ID啊}`: {
+        case `/${哎呀呀这是我的ID啊}/clash`: {
           if (隐藏订阅) {
             return new Response (`${嘲讽语}`, {
               status: 200,
@@ -399,7 +399,7 @@ return `
     </div>
     <div class="link">
       <span class="code">https${符号}${hostName}/${哎呀呀这是我的ID啊}/${小猫}${咪}</span>
-      <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}')">复制链接</button>
+      <button class="button" onclick="copyToClipboard('https${符号}${hostName}/${哎呀呀这是我的ID啊}/clash')">复制链接</button>
     </div>
     <div class="tg-button">
       <a href="https://t.me/eliang_privatebot" target="_blank">失效联系我！</a>
