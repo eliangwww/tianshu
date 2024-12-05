@@ -34,7 +34,7 @@ let 启用SOCKS5反代 = false //如果启用此功能，原始反代将失效
 let 启用SOCKS5全局反代 = false //选择是否启用SOCKS5全局反代，启用后所有访问都是S5的落地【无论你客户端选什么节点】，访问路径是客户端--CF--SOCKS5，当然启用此功能后延迟=CF+SOCKS5，带宽取决于SOCKS5的带宽，不再享受CF高速和随时满带宽的待遇
 let 我的SOCKS5账号 = '' //格式'账号:密码@地址:端口'
 
-let 我的节点名字 = '伟大的白嫖' //自己的节点名字【统一名称】
+let 我的节点名字 = '[伟大的白嫖]' //自己的节点名字【统一名称】
 
 let 伪装网页 = 'www.cfip.nyc.mn' //填入伪装网页，格式'www.youku.com'，建议用小站伪装，比较靠谱
 
@@ -439,7 +439,7 @@ function 给我通用配置文件(hostName) {
       const TLS开关 = tls === 'notls' ? 'security=none' : 'security=tls';
       
       // 生成完整的节点配置
-      return `${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${地址}:${端口}?encryption=none&${TLS开关}&sni=${hostName}&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${节点名字}`;
+      return `${转码}${转码2}${符号}${哎呀呀这是我的VL密钥}@${地址}:${端口}?encryption=none&${TLS开关}&sni=${hostName}&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${节点名字}${我的节点名字}`;
     }).join("\n");
 
     // 处理 Base64 编码：对字符串进行 UTF-8 编码
