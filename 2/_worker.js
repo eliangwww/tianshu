@@ -58,7 +58,7 @@ export default {
         我的优选 = 优选节点 || 我的优选
       }
       switch (url.pathname) {
-        case `/index`: {
+        case `/${哎呀呀这是我的ID啊}`: {
           const 订阅页面 = 给我订阅页面(哎呀呀这是我的ID啊, 访问请求.headers.get('Host'));
           return new Response(`${订阅页面}`, {
             status: 200,
