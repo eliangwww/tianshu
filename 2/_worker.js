@@ -30,9 +30,9 @@ let 我的优选TXT = ['https://raw.cfip.nyc.mn/eliangwww/eliang_clash/refs/head
 let 启用反代功能 = true //选择是否启用反代功能【总开关】，false，true，现在你可以自由的选择是否启用反代功能了
 let 反代IP = 'ts.hpc.tw' //反代IP或域名，反代IP端口一般情况下不用填写，如果你非要用非标反代的话，可以填'ts.hpc.tw:443'这样
 
-let 启用SOCKS5反代 = false //如果启用此功能，原始反代将失效
+let 启用SOCKS5反代 = true //如果启用此功能，原始反代将失效
 let 启用SOCKS5全局反代 = false //选择是否启用SOCKS5全局反代，启用后所有访问都是S5的落地【无论你客户端选什么节点】，访问路径是客户端--CF--SOCKS5，当然启用此功能后延迟=CF+SOCKS5，带宽取决于SOCKS5的带宽，不再享受CF高速和随时满带宽的待遇
-let 我的SOCKS5账号 = '' //格式'账号:密码@地址:端口'
+let 我的SOCKS5账号 = 'eliang666:666@s14.serv00.com:34775' //格式'账号:密码@地址:端口'
 
 let 我的节点名字 = '[伟大的白嫖]' //自己的节点名字【统一名称】
 
